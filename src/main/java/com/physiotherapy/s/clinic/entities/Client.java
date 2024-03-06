@@ -1,11 +1,15 @@
 package com.physiotherapy.s.clinic.entities;
 
+import jakarta.persistence.*;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
-
+@Entity
+@Table(name = "tb_client")
 public class Client implements Serializable {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
     private Integer cpf;
