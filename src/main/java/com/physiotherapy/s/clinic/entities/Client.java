@@ -1,29 +1,30 @@
 package com.physiotherapy.s.clinic.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Objects;
 @Entity
 @Table(name = "tb_client")
 public class Client implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private Integer cpf;
     private Integer rg;
-    private Date dateOfBirth;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    private LocalDate dateOfBirth;
     private Character sex;
     private String maritalStatus;
     private String email;
     private String telephone;
     private String profession;
-    
+
     public Client(){}
 
-    public Client(Long id, String name, Integer cpf, Integer rg, Date dateOfBirth,
+    public Client(Long id, String name, Integer cpf, Integer rg, LocalDate dateOfBirth,
                   Character sex, String maritalStatus, String email, String telephone, String profession) {
         this.id = id;
         this.name = name;
@@ -68,11 +69,11 @@ public class Client implements Serializable {
         this.rg = rg;
     }
 
-    public Date getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
+    public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
