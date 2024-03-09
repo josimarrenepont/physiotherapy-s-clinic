@@ -4,7 +4,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Objects;
+import java.util.*;
+
 @Entity
 @Table(name = "tb_client")
 public class Client implements Serializable {
@@ -22,6 +23,13 @@ public class Client implements Serializable {
     private String telephone;
     private String profession;
 
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @JoinTable(name = "plans_client", joinColumns = @JoinColumn(name = "client_id"),
+            inverseJoinColumns = @JoinColumn(name = "plans_id"))
+    private Set<Plans> plans = new HashSet<>();
+    @OneToOne
+    @JoinColumn(name = "id.client")
+    private TypeOfPlan typeOfPlan;
     public Client(){}
 
     public Client(Long id, String name, Integer cpf, Integer rg, LocalDate dateOfBirth,

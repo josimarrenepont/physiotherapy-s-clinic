@@ -17,7 +17,7 @@ public class PlansService {
     public List<Plans> findAll(){
         return plansRepository.findAll();
     }
-    public Plans findById(@PathVariable Long id){
+    public Plans findById(Long id){
         Optional<Plans> obj = plansRepository.findById(id);
         return obj.orElseThrow();
     }

@@ -23,8 +23,8 @@ public class PlansController {
         List<Plans> list = plansService.findAll();
         return ResponseEntity.ok().body(list);
     }
-    @GetMapping("/{id}")
-    public ResponseEntity<Plans> findById(@PathVariable Long id){
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<Object> findById(@PathVariable Long id){
         Plans obj = plansService.findById(id);
         return ResponseEntity.ok().body(obj);
     }

@@ -15,9 +15,32 @@ public class ClientService {
     @Autowired
     private ClientRepository clientRepository;
 
-    public List<Client> findAll(){return clientRepository.findAll();}
-    public Client findById(@PathVariable Long id){
+    public List<Client> findAll() {
+        return clientRepository.findAll();
+    }
+
+    public Client findById(Long id) {
         Optional<Client> obj = clientRepository.findById(id);
         return obj.orElseThrow();
+    }
+
+    public Client insert(Client obj) {
+        return clientRepository.save(obj);
+    }
+
+    public Client update(Long id, Client obj) {
+        Client entity = clientRepository.getReferenceById(id);
+        updateData(entity, obj);
+        return clientRepository.save(entity);
+    }
+
+    private void updateData(Client entity, Client obj) {
+        entity.setEmail(obj.getEmail());
+        entity.setMaritalStatus(obj.getMaritalStatus());
+        entity.setTelephone(obj.getTelephone());
+    }
+
+    public void delete(Long id) {
+        clientRepository.deleteById(id);
     }
 }

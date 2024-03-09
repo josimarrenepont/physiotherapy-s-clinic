@@ -14,14 +14,14 @@ public class TypeOfPlan implements Serializable {
     @EmbeddedId
     private OrderPlanPK id = new OrderPlanPK();
     private Double price;
-    private Integer quantity;
+    private Integer numberOfDependents;
 
     public TypeOfPlan(){}
 
-    public TypeOfPlan(OrderPlanPK id, Double price, Integer quantity) {
+    public TypeOfPlan(OrderPlanPK id, Double price, Integer numberOfDependents) {
         this.id = id;
         this.price = price;
-        this.quantity = quantity;
+        this.numberOfDependents = numberOfDependents;
     }
 
     public OrderPlanPK getId() {
@@ -40,23 +40,28 @@ public class TypeOfPlan implements Serializable {
         this.price = price;
     }
 
-    public Integer getQuantity() {
-        return quantity;
+    public Integer getNumberOfDependents() {
+        return numberOfDependents;
     }
 
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
+    public void setNumberOfDependents(Integer numberOfDependents) {
+        this.numberOfDependents = numberOfDependents;
+    }
+
+    public Double getSubTotal(){
+        return price * numberOfDependents;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof TypeOfPlan that)) return false;
-        return Objects.equals(getId(), that.getId()) && Objects.equals(getPrice(), that.getPrice()) && Objects.equals(getQuantity(), that.getQuantity());
+        return Objects.equals(getId(), that.getId()) && Objects.equals(getPrice(), that.getPrice())
+                && Objects.equals(getNumberOfDependents(), that.getNumberOfDependents());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getPrice(), getQuantity());
+        return Objects.hash(getId(), getPrice(), getNumberOfDependents());
     }
 }

@@ -5,7 +5,10 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
+
 @Entity
 @Table(name = "tb_plans")
 public class Plans implements Serializable {
@@ -16,6 +19,12 @@ public class Plans implements Serializable {
     private LocalDate moment;
     private Double individualPlan;
     private Double familyPlan;
+
+    @OneToMany(mappedBy = "plans")
+    private Set<Client> clients = new HashSet<>();
+    @OneToOne
+    @JoinColumn(name = "id.plans")
+    private Set<TypeOfPlan> typeOfPlans = new HashSet<>();
 
     public Plans(){}
 
@@ -58,11 +67,32 @@ public class Plans implements Serializable {
         this.moment = moment;
     }
 
+  public Double calculateValuesIndividual(int numberOfDependents){
+            double sum = 0.0;
+            for(TypeOfPlan x : typeOfPlans){
+                if(x.getNumberOfDependents() > 0) {
+                    sum += x.getPrice() * numberOfDependents;
+                }else{
+                        sum += x.getPrice();
+            }
+        }
+      return sum;
+  }
+    public Double calculateValuesFamily(int numberOfDependents){
+            double sum = 0.0;
+            for(TypeOfPlan x : typeOfPlans){
+                sum += x.getSubTotal();
+            }
+        return sum;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Plans plans)) return false;
-        return Objects.equals(getId(), plans.getId()) && Objects.equals(getMoment(), plans.getMoment()) && Objects.equals(getIndividualPlan(), plans.getIndividualPlan()) && Objects.equals(getFamilyPlan(), plans.getFamilyPlan());
+        return Objects.equals(getId(), plans.getId()) && Objects.equals(getMoment(), plans.getMoment())
+                && Objects.equals(getIndividualPlan(), plans.getIndividualPlan())
+                && Objects.equals(getFamilyPlan(), plans.getFamilyPlan());
     }
 
     @Override

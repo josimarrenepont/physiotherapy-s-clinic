@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/physiotherapy's_clinic
+    username: postgres
+    password: 07111519
+  flyway:
+    locations: classpath:db/migration
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate.format_sql: true
+      hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+spring-doc:
+  swagger-ui:
+    path: /swagger-ui.html
+server:
+  port: 8080
+logging:
+  level:
+    org.springframework.web: DEBUG
