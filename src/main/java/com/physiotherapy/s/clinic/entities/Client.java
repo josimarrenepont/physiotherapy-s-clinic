@@ -23,13 +23,13 @@ public class Client implements Serializable {
     private String telephone;
     private String profession;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(name = "plans_client", joinColumns = @JoinColumn(name = "client_id"),
             inverseJoinColumns = @JoinColumn(name = "plans_id"))
     private Set<Plans> plans = new HashSet<>();
-    @OneToOne
-    @JoinColumn(name = "id.client")
-    private TypeOfPlan typeOfPlan;
+
+    @OneToMany(mappedBy = "clients")
+    private Set<Dependents> dependents = new HashSet<>();
     public Client(){}
 
     public Client(Long id, String name, Integer cpf, Integer rg, LocalDate dateOfBirth,

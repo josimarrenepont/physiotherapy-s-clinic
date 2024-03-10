@@ -5,9 +5,7 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "tb_plans")
@@ -17,22 +15,23 @@ public class Plans implements Serializable {
     private Long id;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate moment;
-    private Double individualPlan;
-    private Double familyPlan;
+    private Double additionalPricePerson;
+    private Double price;
+    private Integer numberOfAdditionalPeople;
 
     @OneToMany(mappedBy = "plans")
+    private List<TypeOfPlan> typeOfPlans = new ArrayList<>();
+    @OneToMany(mappedBy = "plans")
     private Set<Client> clients = new HashSet<>();
-    @OneToOne
-    @JoinColumn(name = "id.plans")
-    private Set<TypeOfPlan> typeOfPlans = new HashSet<>();
 
     public Plans(){}
 
-    public Plans(Long id, Double individualPlan, Double familyPlan, LocalDate moment) {
+    public Plans(Long id, LocalDate moment, Double additionalPricePerson, Double price, Integer numberOfAdditionalPeople) {
         this.id = id;
-        this.individualPlan = individualPlan;
-        this.familyPlan = familyPlan;
         this.moment = moment;
+        this.additionalPricePerson = additionalPricePerson;
+        this.price = price;
+        this.numberOfAdditionalPeople = numberOfAdditionalPeople;
     }
 
     public Long getId() {
@@ -43,22 +42,6 @@ public class Plans implements Serializable {
         this.id = id;
     }
 
-    public Double getIndividualPlan() {
-        return individualPlan;
-    }
-
-    public void setIndividualPlan(Double individualPlan) {
-        this.individualPlan = individualPlan;
-    }
-
-    public Double getFamilyPlan() {
-        return familyPlan;
-    }
-
-    public void setFamilyPlan(Double familyPlan) {
-        this.familyPlan = familyPlan;
-    }
-
     public LocalDate getMoment() {
         return moment;
     }
@@ -67,21 +50,45 @@ public class Plans implements Serializable {
         this.moment = moment;
     }
 
-  public Double calculateValuesIndividual(int numberOfDependents){
+    public Double getAdditionalPricePerson() {
+        return additionalPricePerson;
+    }
+
+    public void setAdditionalPricePerson(Double additionalPricePerson) {
+        this.additionalPricePerson = additionalPricePerson;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public Integer getNumberOfAdditionalPeople() {
+        return numberOfAdditionalPeople;
+    }
+
+    public void setNumberOfAdditionalPeople(Integer numberOfAdditionalPeople) {
+        this.numberOfAdditionalPeople = numberOfAdditionalPeople;
+    }
+
+    public Double calculateValuesIndividual(int numberOfDependents, TypeOfPlan[] typeOfPlans){
             double sum = 0.0;
             for(TypeOfPlan x : typeOfPlans){
                 if(x.getNumberOfDependents() > 0) {
-                    sum += x.getPrice() * numberOfDependents;
+                    sum += x.getPrice() * numberOfDependents + getNumberOfAdditionalPeople();
                 }else{
                         sum += x.getPrice();
             }
         }
       return sum;
   }
-    public Double calculateValuesFamily(int numberOfDependents){
+    public Double calculateValuesFamily(int numberOfDependents, TypeOfPlan[] typeOfPlans){
             double sum = 0.0;
             for(TypeOfPlan x : typeOfPlans){
-                sum += x.getSubTotal();
+                sum += x.getSubTotal() + getNumberOfAdditionalPeople();
             }
         return sum;
     }
@@ -90,13 +97,15 @@ public class Plans implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Plans plans)) return false;
-        return Objects.equals(getId(), plans.getId()) && Objects.equals(getMoment(), plans.getMoment())
-                && Objects.equals(getIndividualPlan(), plans.getIndividualPlan())
-                && Objects.equals(getFamilyPlan(), plans.getFamilyPlan());
+        return Objects.equals(getId(), plans.getId())
+                && Objects.equals(getMoment(), plans.getMoment())
+                && Objects.equals(getAdditionalPricePerson(), plans.getAdditionalPricePerson())
+                && Objects.equals(getPrice(), plans.getPrice()) && Objects.equals(typeOfPlans, plans.typeOfPlans)
+                && Objects.equals(clients, plans.clients);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getMoment(), getIndividualPlan(), getFamilyPlan());
+        return Objects.hash(getId(), getMoment(), getAdditionalPricePerson(), getPrice());
     }
 }
