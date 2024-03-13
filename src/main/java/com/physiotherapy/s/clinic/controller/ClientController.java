@@ -1,6 +1,7 @@
 package com.physiotherapy.s.clinic.controller;
 
 import com.physiotherapy.s.clinic.entities.Client;
+import com.physiotherapy.s.clinic.entities.dto.ClientDTO;
 import com.physiotherapy.s.clinic.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/clients")
@@ -17,19 +19,22 @@ public class ClientController {
     @Autowired
     private ClientService clientService;
     @GetMapping
-    public ResponseEntity<List<Client>> findAll(){
+    public ResponseEntity<List<ClientDTO>> findAll(){
         List<Client> list = clientService.findAll();
-        return ResponseEntity.ok().body(list);
+        List<ClientDTO> dtoList = list.stream().map(ClientDTO::new).collect(Collectors.toList());
+        return ResponseEntity.ok().body(dtoList);
     }
     @GetMapping(value = "/{id}")
     public ResponseEntity<Object> findById(@PathVariable Long id){
         Client obj = clientService.findById(id);
-        return ResponseEntity.ok().body(obj);
+        ClientDTO objDTO = new ClientDTO(obj);
+        return ResponseEntity.ok().body(objDTO);
     }
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Client> update(@PathVariable Long id, @RequestBody Client obj){
-        obj = clientService.update(id, obj);
-        return ResponseEntity.ok().body(obj);
+    public ResponseEntity<ClientDTO> update(@PathVariable Long id, @RequestBody ClientDTO dto){
+        Client obj = clientService.update(id, dto);
+        ClientDTO objDTO = new ClientDTO(obj);
+        return ResponseEntity.ok().body(objDTO);
     }
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
@@ -37,9 +42,9 @@ public class ClientController {
         return ResponseEntity.noContent().build();
     }
     @PostMapping
-    public ResponseEntity<Client> insert(@RequestBody Client obj){
-        obj = clientService.insert(obj);
+    public ResponseEntity<ClientDTO> insert(@RequestBody ClientDTO dto){
+        Client obj = clientService.insert(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
-        return ResponseEntity.created(uri).body(obj);
+        return ResponseEntity.created(uri).body(new ClientDTO(obj));
     }
 }

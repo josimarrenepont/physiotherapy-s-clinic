@@ -23,9 +23,14 @@ public class PlansService {
     }
 
     public Plans update(Long id, Plans obj) {
-        Plans entity = plansRepository.getReferenceById(id);
-        updateData(entity, obj);
-        return plansRepository.save(entity);
+        try {
+            Plans entity = plansRepository.getReferenceById(id);
+            updateData(entity, obj);
+            return plansRepository.save(entity);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return obj;
     }
 
     private void updateData(Plans entity, Plans obj) {
