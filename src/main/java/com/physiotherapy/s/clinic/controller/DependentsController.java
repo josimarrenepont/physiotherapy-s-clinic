@@ -20,7 +20,7 @@ public class DependentsController {
         List<Dependents> list = dependentsService.findAll();
         return ResponseEntity.ok().body(list);
     }
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}")
     public ResponseEntity<Dependents> findById(@PathVariable Long id){
         Dependents obj = dependentsService.findById(id);
         return ResponseEntity.ok().body(obj);
@@ -31,12 +31,12 @@ public class DependentsController {
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
         return ResponseEntity.created(uri).body(obj);
     }
-    @DeleteMapping("/{id}")
+    @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete (@PathVariable Long id){
         dependentsService.delete(id);
         return ResponseEntity.noContent().build();
     }
-    @PutMapping("/{id}")
+    @PutMapping(value = "/{id}")
     public ResponseEntity<Dependents> update(@PathVariable Long id, @RequestBody Dependents obj){
         obj = dependentsService.update(id, obj);
         return ResponseEntity.ok().body(obj);

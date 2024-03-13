@@ -12,6 +12,7 @@ public class Dependents implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private String telephone;
     private String kinship;
 
     @ManyToOne
@@ -20,9 +21,10 @@ public class Dependents implements Serializable {
 
     public Dependents(){}
 
-    public Dependents(Long id, String name, String kinship) {
+    public Dependents(Long id, String name, String telephone, String kinship) {
         this.id = id;
         this.name = name;
+        this.telephone = telephone;
         this.kinship = kinship;
     }
 
@@ -42,6 +44,12 @@ public class Dependents implements Serializable {
         this.name = name;
     }
 
+    public String getTelephone() {
+        return telephone;
+    }
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
+    }
     public String getKinship() {
         return kinship;
     }

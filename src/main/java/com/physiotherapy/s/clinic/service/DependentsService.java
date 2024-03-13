@@ -34,6 +34,6 @@ public class DependentsService {
     }
 
     private void updateData(Dependents entity, Dependents obj) {
-        entity.setName(obj.getName());
+        entity.setTelephone(obj.getTelephone());
     }
 }

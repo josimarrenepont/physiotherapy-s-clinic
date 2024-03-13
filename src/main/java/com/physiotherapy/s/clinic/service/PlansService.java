@@ -21,4 +21,16 @@ public class PlansService {
         Optional<Plans> obj = plansRepository.findById(id);
         return obj.orElseThrow();
     }
+
+    public Plans update(Long id, Plans obj) {
+        Plans entity = plansRepository.getReferenceById(id);
+        updateData(entity, obj);
+        return plansRepository.save(entity);
+    }
+
+    private void updateData(Plans entity, Plans obj) {
+        entity.setPrice(obj.getPrice());
+        entity.setAdditionalPricePerson(obj.getAdditionalPricePerson());
+        entity.setNumberOfAdditionalPeople(obj.getNumberOfAdditionalPeople());
+    }
 }

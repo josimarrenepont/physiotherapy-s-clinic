@@ -4,10 +4,7 @@ import com.physiotherapy.s.clinic.entities.Plans;
 import com.physiotherapy.s.clinic.service.PlansService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,6 +23,11 @@ public class PlansController {
     @GetMapping(value = "/{id}")
     public ResponseEntity<Object> findById(@PathVariable Long id){
         Plans obj = plansService.findById(id);
+        return ResponseEntity.ok().body(obj);
+    }
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Plans> update(@PathVariable Long id, @RequestBody Plans obj){
+        obj = plansService.update(id, obj);
         return ResponseEntity.ok().body(obj);
     }
 }
