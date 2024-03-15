@@ -19,6 +19,10 @@ public class Dependents implements Serializable {
     @JoinColumn(name = "id_client")
     private Client clients;
 
+    @ManyToOne
+    @JoinColumn(name = "plans_id")
+    private Plans plans;
+
     public Dependents(){}
 
     public Dependents(Long id, String name, String telephone, String kinship) {
@@ -58,6 +62,20 @@ public class Dependents implements Serializable {
         this.kinship = kinship;
     }
 
+    public Double calculateValuesPlans(Client client){
+        double sum = 0.0;
+        Set<Plans> plans = client.getPlans();
+        for(Plans x : plans){
+            double planPrice = x.getSubTotalPlans();
+            if(clients.getTotalNumberOfDependents() > 1) {
+                planPrice += (clients.getTotalNumberOfDependents() - 1) * x.getAdditionalPricePerson();
+            }else{
+                sum += planPrice;
+            }
+        }
+        return sum;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -70,5 +88,9 @@ public class Dependents implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(getId(), getName(), getKinship());
+    }
+
+    public int getNumberOfDependents() {
+        return clients.getTotalNumberOfDependents();
     }
 }

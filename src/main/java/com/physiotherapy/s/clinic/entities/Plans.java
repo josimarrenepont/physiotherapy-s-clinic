@@ -17,21 +17,17 @@ public class Plans implements Serializable {
     private LocalDate moment;
     private Double additionalPricePerson;
     private Double price;
-    private Integer numberOfAdditionalPeople;
 
-    @OneToMany(mappedBy = "plans")
-    private List<TypeOfPlan> typeOfPlans = new ArrayList<>();
     @OneToMany(mappedBy = "plans")
     private Set<Client> clients = new HashSet<>();
 
     public Plans(){}
 
-    public Plans(Long id, LocalDate moment, Double additionalPricePerson, Double price, Integer numberOfAdditionalPeople) {
+    public Plans(Long id, LocalDate moment, Double additionalPricePerson, Double price) {
         this.id = id;
         this.moment = moment;
         this.additionalPricePerson = additionalPricePerson;
         this.price = price;
-        this.numberOfAdditionalPeople = numberOfAdditionalPeople;
     }
 
     public Long getId() {
@@ -66,32 +62,9 @@ public class Plans implements Serializable {
         this.price = price;
     }
 
-    public Integer getNumberOfAdditionalPeople() {
-        return numberOfAdditionalPeople;
-    }
-
-    public void setNumberOfAdditionalPeople(Integer numberOfAdditionalPeople) {
-        this.numberOfAdditionalPeople = numberOfAdditionalPeople;
-    }
-
-    public Double calculateValuesIndividual(int numberOfDependents, TypeOfPlan[] typeOfPlans){
-            double sum = 0.0;
-            for(TypeOfPlan x : typeOfPlans){
-                if(x.getNumberOfDependents() > 0) {
-                    sum += x.getPrice() * numberOfDependents + getNumberOfAdditionalPeople();
-                }else{
-                        sum += x.getPrice();
-            }
-        }
-      return sum;
+    public Double getSubTotalPlans(){
+        return price + additionalPricePerson;
   }
-    public Double calculateValuesFamily(int numberOfDependents, TypeOfPlan[] typeOfPlans){
-            double sum = 0.0;
-            for(TypeOfPlan x : typeOfPlans){
-                sum += x.getSubTotal() + getNumberOfAdditionalPeople();
-            }
-        return sum;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -100,8 +73,7 @@ public class Plans implements Serializable {
         return Objects.equals(getId(), plans.getId())
                 && Objects.equals(getMoment(), plans.getMoment())
                 && Objects.equals(getAdditionalPricePerson(), plans.getAdditionalPricePerson())
-                && Objects.equals(getPrice(), plans.getPrice()) && Objects.equals(typeOfPlans, plans.typeOfPlans)
-                && Objects.equals(clients, plans.clients);
+                && Objects.equals(getPrice(), plans.getPrice());
     }
 
     @Override

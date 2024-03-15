@@ -38,7 +38,9 @@ public class ClientService {
 
     return clientRepository.save(client);
     }
-
+    public void delete(Long id) {
+        clientRepository.deleteById(id);
+    }
     public Client update(Long id, ClientDTO obj) {
         Client entity = clientRepository.getReferenceById(id);
         updateData(entity, obj);
@@ -51,7 +53,4 @@ public class ClientService {
         entity.setTelephone(obj.getTelephone());
     }
 
-    public void delete(Long id) {
-        clientRepository.deleteById(id);
-    }
 }

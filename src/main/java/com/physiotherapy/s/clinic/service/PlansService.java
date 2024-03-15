@@ -36,6 +36,6 @@ public class PlansService {
     private void updateData(Plans entity, Plans obj) {
         entity.setPrice(obj.getPrice());
         entity.setAdditionalPricePerson(obj.getAdditionalPricePerson());
-        entity.setNumberOfAdditionalPeople(obj.getNumberOfAdditionalPeople());
+
     }
 }

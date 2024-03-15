@@ -14,6 +14,14 @@ target/
 .sts4-cache
 
 ### IntelliJ IDEA ###
+# Ignore all files and folders except backend and frontend
+/*
+!/backend/
+!/frontend/
+
+# Ignore everything in the backend and frontend folders
+/backend/*
+/frontend/*
 .idea
 *.iws
 *.iml

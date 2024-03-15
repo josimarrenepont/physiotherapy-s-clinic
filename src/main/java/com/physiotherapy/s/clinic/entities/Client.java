@@ -22,6 +22,7 @@ public class Client implements Serializable {
     private String email;
     private String telephone;
     private String profession;
+    private Integer numberOfDependents;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(name = "plans_client", joinColumns = @JoinColumn(name = "client_id"),
@@ -33,7 +34,7 @@ public class Client implements Serializable {
     public Client(){}
 
     public Client(Long id, String name, Integer cpf, Integer rg, LocalDate dateOfBirth,
-                  Character sex, String maritalStatus, String email, String telephone, String profession) {
+                  Character sex, String maritalStatus, String email, String telephone, String profession, Integer numberOfDependents) {
         this.id = id;
         this.name = name;
         this.cpf = cpf;
@@ -44,6 +45,7 @@ public class Client implements Serializable {
         this.email = email;
         this.telephone = telephone;
         this.profession = profession;
+        this.numberOfDependents = numberOfDependents;
     }
 
     public Long getId() {
@@ -124,6 +126,21 @@ public class Client implements Serializable {
     public void setProfession(String profession) {
         this.profession = profession;
     }
+    public Integer getNumberOfDependents() { return numberOfDependents; }
+    public void setNumberOfDependents(Integer numberOfDependents){
+        this.numberOfDependents = numberOfDependents;
+    }
+
+    public Set<Plans> getPlans() {
+        return plans;
+    }
+    public Integer getTotalNumberOfDependents(){
+        int sumDepedents = 0;
+        for(Dependents dependent : dependents){
+            sumDepedents += dependent.getNumberOfDependents();
+        }
+        return sumDepedents;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -142,4 +159,5 @@ public class Client implements Serializable {
         return Objects.hash(getId(), getName(), getCpf(), getRg(), getDateOfBirth(),
                 getSex(), getMaritalStatus(), getEmail(), getTelephone(), getProfession());
     }
+
 }
