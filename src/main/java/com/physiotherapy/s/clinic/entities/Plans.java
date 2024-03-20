@@ -63,8 +63,11 @@ public class Plans implements Serializable {
     }
 
     public Double getSubTotalPlans(){
-        return price + additionalPricePerson;
-  }
+        if(this.additionalPricePerson == null){
+            return 0.0;
+        }
+        return this.price + this.additionalPricePerson;
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -30,4 +30,9 @@ public class PlansController {
         obj = plansService.update(id, obj);
         return ResponseEntity.ok().body(obj);
     }
+    @PostMapping
+    public ResponseEntity<Plans> insert(@RequestBody Plans obj){
+        obj = plansService.insert(obj);
+        return ResponseEntity.ok().body(obj);
+    }
 }

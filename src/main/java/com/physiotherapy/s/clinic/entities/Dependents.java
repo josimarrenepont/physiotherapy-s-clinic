@@ -1,6 +1,7 @@
 package com.physiotherapy.s.clinic.entities;
 
 import jakarta.persistence.*;
+import org.hibernate.boot.model.internal.BinderHelper;
 
 import java.io.Serializable;
 import java.util.*;
@@ -16,11 +17,9 @@ public class Dependents implements Serializable {
     private String kinship;
 
     @ManyToOne
-    @JoinColumn(name = "id_client")
     private Client clients;
 
     @ManyToOne
-    @JoinColumn(name = "plans_id")
     private Plans plans;
 
     public Dependents(){}
@@ -61,13 +60,22 @@ public class Dependents implements Serializable {
     public void setKinship(String kinship) {
         this.kinship = kinship;
     }
+    public int getNumberOfDependents() {
+        return clients.getTotalNumberOfDependents();
+    }
+    public void setClient(Client client) {
+        this.clients = client;
+    }
 
+    public void setPlans(Plans plans) {
+        this.plans = plans;
+    }
     public Double calculateValuesPlans(Client client){
         double sum = 0.0;
         Set<Plans> plans = client.getPlans();
         for(Plans x : plans){
-            double planPrice = x.getSubTotalPlans();
-            if(clients.getTotalNumberOfDependents() > 1) {
+            double planPrice = x.getPrice();
+            if(clients.getTotalNumberOfDependents() > 0) {
                 planPrice += (clients.getTotalNumberOfDependents() - 1) * x.getAdditionalPricePerson();
             }else{
                 sum += planPrice;
@@ -76,6 +84,9 @@ public class Dependents implements Serializable {
         return sum;
     }
 
+    public Client getClient() {
+        return this.clients;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -90,7 +101,4 @@ public class Dependents implements Serializable {
         return Objects.hash(getId(), getName(), getKinship());
     }
 
-    public int getNumberOfDependents() {
-        return clients.getTotalNumberOfDependents();
-    }
 }

@@ -135,13 +135,15 @@ public class Client implements Serializable {
         return plans;
     }
     public Integer getTotalNumberOfDependents(){
-        int sumDepedents = 0;
-        for(Dependents dependent : dependents){
-            sumDepedents += dependent.getNumberOfDependents();
-        }
-        return sumDepedents;
+        return dependents.size();
     }
 
+    public void setTotalNumberOfDependents(int i) {
+        getTotalNumberOfDependents();
+    }
+    public void setDependents(Dependents dependents) {
+        this.dependents = (Set<Dependents>) dependents;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -2,7 +2,11 @@ package com.physiotherapy.s.clinic.service;
 
 import com.physiotherapy.s.clinic.entities.Plans;
 import com.physiotherapy.s.clinic.repository.PlansRepository;
+import com.physiotherapy.s.clinic.service.exceptions.ResourceNotFoundExceptions;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -19,7 +23,7 @@ public class PlansService {
     }
     public Plans findById(Long id){
         Optional<Plans> obj = plansRepository.findById(id);
-        return obj.orElseThrow();
+        return obj.orElseThrow(() -> new ResourceNotFoundExceptions(id));
     }
 
     public Plans update(Long id, Plans obj) {
@@ -27,15 +31,24 @@ public class PlansService {
             Plans entity = plansRepository.getReferenceById(id);
             updateData(entity, obj);
             return plansRepository.save(entity);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (EntityNotFoundException e) {
+            throw new ResourceNotFoundExceptions(id);
         }
-        return obj;
     }
 
     private void updateData(Plans entity, Plans obj) {
-        entity.setPrice(obj.getPrice());
-        entity.setAdditionalPricePerson(obj.getAdditionalPricePerson());
+        if(obj.getAdditionalPricePerson() != null){
+            entity.setAdditionalPricePerson(obj.getAdditionalPricePerson());
+        }
+        if(obj.getMoment() != null){
+            entity.setMoment(obj.getMoment());
+        }
 
+        entity.setPrice(obj.getPrice());
+
+    }
+
+    public Plans insert(Plans obj) {
+        return plansRepository.save(obj);
     }
 }

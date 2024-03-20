@@ -2,6 +2,7 @@ package com.physiotherapy.s.clinic.entities.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.physiotherapy.s.clinic.entities.Client;
+import com.physiotherapy.s.clinic.entities.Dependents;
 
 import java.time.LocalDate;
 
@@ -17,6 +18,7 @@ public class ClientDTO {
     private String email;
     private String telephone;
     private String profession;
+    private Dependents dependents;
 
     public ClientDTO(){}
 
@@ -53,16 +55,8 @@ public class ClientDTO {
         return cpf;
     }
 
-    public void setCpf(Integer cpf) {
-        this.cpf = cpf;
-    }
-
     public Integer getRg() {
         return rg;
-    }
-
-    public void setRg(Integer rg) {
-        this.rg = rg;
     }
 
     public LocalDate getDateOfBirth() {
@@ -112,4 +106,9 @@ public class ClientDTO {
     public void setProfession(String profession) {
         this.profession = profession;
     }
+
+    public void setDependents(Dependents dependents) {
+        this.dependents = dependents;
+    }
+
 }

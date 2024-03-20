@@ -1,7 +1,9 @@
 package com.physiotherapy.s.clinic.controller;
 
 import com.physiotherapy.s.clinic.entities.Client;
+import com.physiotherapy.s.clinic.entities.Dependents;
 import com.physiotherapy.s.clinic.entities.dto.ClientDTO;
+import com.physiotherapy.s.clinic.repository.ClientRepository;
 import com.physiotherapy.s.clinic.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,9 @@ public class ClientController {
 
     @Autowired
     private ClientService clientService;
+    @Autowired
+    private ClientRepository clientRepository;
+
     @GetMapping
     public ResponseEntity<List<ClientDTO>> findAll(){
         List<Client> list = clientService.findAll();
@@ -47,4 +52,5 @@ public class ClientController {
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
         return ResponseEntity.created(uri).body(new ClientDTO(obj));
     }
+
 }
