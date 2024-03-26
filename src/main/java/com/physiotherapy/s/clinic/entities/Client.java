@@ -1,6 +1,7 @@
 package com.physiotherapy.s.clinic.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -22,11 +23,11 @@ public class Client implements Serializable {
     private String email;
     private String telephone;
     private String profession;
-    private Integer numberOfDependents;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(name = "plans_client", joinColumns = @JoinColumn(name = "client_id"),
             inverseJoinColumns = @JoinColumn(name = "plans_id"))
+    @JsonIgnore
     private Set<Plans> plans = new HashSet<>();
 
     @OneToMany(mappedBy = "clients")
@@ -34,7 +35,8 @@ public class Client implements Serializable {
     public Client(){}
 
     public Client(Long id, String name, Integer cpf, Integer rg, LocalDate dateOfBirth,
-                  Character sex, String maritalStatus, String email, String telephone, String profession, Integer numberOfDependents) {
+                  Character sex, String maritalStatus, String email, String telephone,
+                  String profession) {
         this.id = id;
         this.name = name;
         this.cpf = cpf;
@@ -45,7 +47,6 @@ public class Client implements Serializable {
         this.email = email;
         this.telephone = telephone;
         this.profession = profession;
-        this.numberOfDependents = numberOfDependents;
     }
 
     public Long getId() {
@@ -126,24 +127,21 @@ public class Client implements Serializable {
     public void setProfession(String profession) {
         this.profession = profession;
     }
-    public Integer getNumberOfDependents() { return numberOfDependents; }
-    public void setNumberOfDependents(Integer numberOfDependents){
-        this.numberOfDependents = numberOfDependents;
-    }
 
     public Set<Plans> getPlans() {
         return plans;
     }
     public Integer getTotalNumberOfDependents(){
-        return dependents.size();
+        return this.dependents.size();
     }
 
-    public void setTotalNumberOfDependents(int i) {
-        getTotalNumberOfDependents();
+    public void setTotalNumberOfDependents(int totalNumberOfDependents) {
+        setTotalNumberOfDependents(getTotalNumberOfDependents());
     }
-    public void setDependents(Dependents dependents) {
-        this.dependents = (Set<Dependents>) dependents;
+    public Collection<Object> getDependents() {
+        return Arrays.asList(dependents.toArray());
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -16,7 +16,7 @@ public class Dependents implements Serializable {
     private String telephone;
     private String kinship;
 
-    @ManyToOne
+    @ManyToOne()
     private Client clients;
 
     @ManyToOne
@@ -60,9 +60,7 @@ public class Dependents implements Serializable {
     public void setKinship(String kinship) {
         this.kinship = kinship;
     }
-    public int getNumberOfDependents() {
-        return clients.getTotalNumberOfDependents();
-    }
+
     public void setClient(Client client) {
         this.clients = client;
     }
@@ -70,19 +68,8 @@ public class Dependents implements Serializable {
     public void setPlans(Plans plans) {
         this.plans = plans;
     }
-    public Double calculateValuesPlans(Client client){
-        double sum = 0.0;
-        Set<Plans> plans = client.getPlans();
-        for(Plans x : plans){
-            double planPrice = x.getPrice();
-            if(clients.getTotalNumberOfDependents() > 0) {
-                planPrice += (clients.getTotalNumberOfDependents() - 1) * x.getAdditionalPricePerson();
-            }else{
-                sum += planPrice;
-            }
-        }
-        return sum;
-    }
+
+
 
     public Client getClient() {
         return this.clients;

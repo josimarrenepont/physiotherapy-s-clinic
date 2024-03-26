@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class DependentsService {
@@ -34,9 +35,7 @@ public class DependentsService {
         Optional<Dependents> obj = dependentsRepository.findById(id);
         return obj.orElseThrow(() -> new ResourceNotFoundExceptions(id));
     }
-    public Dependents insert(Dependents obj){
-        return dependentsRepository.save(obj);
-    }
+
     public void delete(Long id){
         try {
             dependentsRepository.deleteById(id);
@@ -61,29 +60,47 @@ public class DependentsService {
         entity.setTelephone(obj.getTelephone());
     }
 
-    public void createDependent(Long clientId, Dependents dependents) throws EntityNotFoundException {
+
+    public Dependents Insert(Long clientId, Long plansId, Long dependentsId, Dependents dependents) throws EntityNotFoundException {
         Optional<Client> optionalClient = clientRepository.findById(clientId);
-        if(!optionalClient.isPresent()) {
+        Optional<Plans> optionalPlans = plansRepository.findById(plansId);
+        Optional<Dependents> optionalDependents = dependentsRepository.findById(dependentsId);
+        if(optionalClient.isEmpty()) {
             throw new EntityNotFoundException("Client not found. Id" + clientId);
         }
-            Client client = optionalClient.get();
-            dependents.setClient(client);
-            client.setTotalNumberOfDependents(client.getTotalNumberOfDependents() + 1);
-            clientRepository.save(client);
-            dependentsRepository.save(dependents);
-
+        if(optionalPlans.isEmpty()){
+            throw new EntityNotFoundException("Plans not found. Id " + plansId);
         }
+
+        Client client = optionalClient.get();
+        Plans plans = optionalPlans.get();
+        Dependents dependents1 = optionalDependents.get();
+        dependents.setPlans(plans);
+        dependents.setClient(client);
+        dependents.setId(dependents.getId());
+
+        client.setTotalNumberOfDependents(client.getTotalNumberOfDependents() + 1);
+        client.setId(client.getId());
+
+        plans.setId(plans.getId());
+        plans.setPrice(plans.getPrice());
+        plans.setAdditionalPricePerson(plans.getAdditionalPricePerson());
+
+        dependents1.setId(dependents1.getId());
+        dependents1.setClient(dependents1.getClient());
+        dependents1.setPlans(plans);
+
+        clientRepository.save(client);
+        dependentsRepository.save(dependents);
+        plansRepository.save(plans);
+
+        return dependents;
+    }
 
     public Dependents insert(Long clientId, Dependents obj) {
         Client client = clientRepository.findById(clientId).orElseThrow(
                 () -> new ResourceNotFoundExceptions("Client not found with Id: " + clientId));
         obj.setClient(client);
-        return dependentsRepository.save(obj);
-    }
-    public Dependents insert(Long clientId, Long plansId, Dependents obj){
-        Plans plans = plansRepository.findById(plansId).
-                orElseThrow(()-> new ResourceNotFoundExceptions("Plans not found with Id " + plansId));
-        obj.setPlans(plans);
         return dependentsRepository.save(obj);
     }
 }

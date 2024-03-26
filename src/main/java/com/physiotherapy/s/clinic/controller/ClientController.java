@@ -2,9 +2,14 @@ package com.physiotherapy.s.clinic.controller;
 
 import com.physiotherapy.s.clinic.entities.Client;
 import com.physiotherapy.s.clinic.entities.Dependents;
+import com.physiotherapy.s.clinic.entities.Plans;
 import com.physiotherapy.s.clinic.entities.dto.ClientDTO;
 import com.physiotherapy.s.clinic.repository.ClientRepository;
+import com.physiotherapy.s.clinic.repository.DependentsRepository;
+import com.physiotherapy.s.clinic.repository.PlansRepository;
 import com.physiotherapy.s.clinic.service.ClientService;
+import com.physiotherapy.s.clinic.service.PlansService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +17,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -22,6 +28,10 @@ public class ClientController {
     private ClientService clientService;
     @Autowired
     private ClientRepository clientRepository;
+    @Autowired
+    private DependentsRepository dependentsRepository;
+    @Autowired
+    private PlansRepository plansRepository;
 
     @GetMapping
     public ResponseEntity<List<ClientDTO>> findAll(){
@@ -48,6 +58,7 @@ public class ClientController {
     }
     @PostMapping
     public ResponseEntity<ClientDTO> insert(@RequestBody ClientDTO dto){
+
         Client obj = clientService.insert(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
         return ResponseEntity.created(uri).body(new ClientDTO(obj));

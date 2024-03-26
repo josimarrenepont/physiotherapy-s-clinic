@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class ClientService {
@@ -27,6 +28,8 @@ public class ClientService {
     private DependentsRepository dependentsRepository;
     @Autowired
     private PlansRepository plansRepository;
+    private Client client;
+    private Long plansId;
 
     public List<Client> findAll() {
         return clientRepository.findAll();
@@ -39,23 +42,23 @@ public class ClientService {
 
     public Client insert(ClientDTO obj) {
         Client client;
-            client = new Client();
-            client.setName(obj.getName());
-            client.setRg(obj.getRg());
-            client.setCpf(obj.getCpf());
-            client.setTelephone(obj.getTelephone());
-            client.setEmail(obj.getEmail());
-            client.setMaritalStatus(obj.getMaritalStatus());
-            client.setProfession(obj.getProfession());
-            client.setDateOfBirth(obj.getDateOfBirth());
-            client.setSex(obj.getSex());
+        client = new Client();
+        client.setName(obj.getName());
+        client.setRg(obj.getRg());
+        client.setCpf(obj.getCpf());
+        client.setTelephone(obj.getTelephone());
+        client.setEmail(obj.getEmail());
+        client.setMaritalStatus(obj.getMaritalStatus());
+        client.setProfession(obj.getProfession());
+        client.setDateOfBirth(obj.getDateOfBirth());
+        client.setSex(obj.getSex());
 
-            return clientRepository.save(client);
+        return clientRepository.save(client);
     }
     public void delete(Long id) {
         try{
-        clientRepository.deleteById(id);
-    }catch (EmptyResultDataAccessException e) {
+            clientRepository.deleteById(id);
+        }catch (EmptyResultDataAccessException e) {
             throw new ResourceNotFoundExceptions(id);
         }catch (DataIntegrityViolationException e){
             throw new DatabaseExceptions(e.getMessage());
@@ -81,10 +84,10 @@ public class ClientService {
         Optional<Client> optionalClient = clientRepository.findById(clientId);
         if(!optionalDependents.isPresent()){
             throw new EntityNotFoundException("Dependents not found, Id! " + dependentsId);
-    }
+        }
         if(!optionalClient.isPresent()){
             throw new EntityNotFoundException("Client not found, Id! " + clientId);
-    }
+        }
 
         Dependents dependents = optionalDependents.get();
         Client client = optionalClient.get();
@@ -94,6 +97,6 @@ public class ClientService {
         dependentsRepository.save(dependents);
         clientRepository.save(client);
     }
-
-
 }
+
+

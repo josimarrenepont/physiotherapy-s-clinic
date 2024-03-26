@@ -1,14 +1,13 @@
 package com.physiotherapy.s.clinic.service;
 
+import com.physiotherapy.s.clinic.entities.Client;
 import com.physiotherapy.s.clinic.entities.Plans;
+import com.physiotherapy.s.clinic.repository.ClientRepository;
 import com.physiotherapy.s.clinic.repository.PlansRepository;
 import com.physiotherapy.s.clinic.service.exceptions.ResourceNotFoundExceptions;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,11 +16,14 @@ import java.util.Optional;
 public class PlansService {
     @Autowired
     private PlansRepository plansRepository;
+    @Autowired
+    private ClientRepository clientRepository;
 
-    public List<Plans> findAll(){
+    public List<Plans> findAll() {
         return plansRepository.findAll();
     }
-    public Plans findById(Long id){
+
+    public Plans findById(Long id) {
         Optional<Plans> obj = plansRepository.findById(id);
         return obj.orElseThrow(() -> new ResourceNotFoundExceptions(id));
     }
@@ -37,10 +39,10 @@ public class PlansService {
     }
 
     private void updateData(Plans entity, Plans obj) {
-        if(obj.getAdditionalPricePerson() != null){
+        if (obj.getAdditionalPricePerson() != null) {
             entity.setAdditionalPricePerson(obj.getAdditionalPricePerson());
         }
-        if(obj.getMoment() != null){
+        if (obj.getMoment() != null) {
             entity.setMoment(obj.getMoment());
         }
 
@@ -51,4 +53,15 @@ public class PlansService {
     public Plans insert(Plans obj) {
         return plansRepository.save(obj);
     }
+
+public Double getTotalPriceWithDependents(Long plansId, Long clientId) {
+    Client client = clientRepository.findById(clientId)
+            .orElseThrow(() -> new ResourceNotFoundExceptions("Client not found with id: " + clientId));
+
+    Plans plans = plansRepository.findById(plansId)
+            .orElseThrow(() -> new ResourceNotFoundExceptions("Plans not found with id: " + plansId));
+
+    return plans.getTotalPriceWithDependents(client);
+}
+
 }

@@ -61,14 +61,17 @@ public class Plans implements Serializable {
     public void setPrice(Double price) {
         this.price = price;
     }
-
-    public Double getSubTotalPlans(){
-        if(this.additionalPricePerson == null){
-            return 0.0;
-        }
-        return this.price + this.additionalPricePerson;
+    public void setClient(Set<Client> client) {
+        this.clients = client;
     }
-
+    public Double getTotalPriceWithDependents(Client client) {
+        int numberOfDependents = client.getDependents().size();
+        if (numberOfDependents == 0) {
+            return this.price;
+        } else {
+            return this.price + (numberOfDependents * this.additionalPricePerson);
+        }
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -83,4 +86,5 @@ public class Plans implements Serializable {
     public int hashCode() {
         return Objects.hash(getId(), getMoment(), getAdditionalPricePerson(), getPrice());
     }
+
 }
