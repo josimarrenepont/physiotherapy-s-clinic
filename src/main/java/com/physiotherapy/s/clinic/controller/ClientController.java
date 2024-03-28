@@ -4,6 +4,7 @@ import com.physiotherapy.s.clinic.entities.Client;
 import com.physiotherapy.s.clinic.entities.Dependents;
 import com.physiotherapy.s.clinic.entities.Plans;
 import com.physiotherapy.s.clinic.entities.dto.ClientDTO;
+import com.physiotherapy.s.clinic.entities.dto.DependentsDTO;
 import com.physiotherapy.s.clinic.repository.ClientRepository;
 import com.physiotherapy.s.clinic.repository.DependentsRepository;
 import com.physiotherapy.s.clinic.repository.PlansRepository;
@@ -33,6 +34,9 @@ public class ClientController {
     @Autowired
     private PlansRepository plansRepository;
 
+    @Autowired
+    private PlansService plansService;
+
     @GetMapping
     public ResponseEntity<List<ClientDTO>> findAll(){
         List<Client> list = clientService.findAll();
@@ -56,12 +60,11 @@ public class ClientController {
         clientService.delete(id);
         return ResponseEntity.noContent().build();
     }
-    @PostMapping
-    public ResponseEntity<ClientDTO> insert(@RequestBody ClientDTO dto){
-
-        Client obj = clientService.insert(dto);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
-        return ResponseEntity.created(uri).body(new ClientDTO(obj));
+    @PostMapping(value = "/{plansId}")
+    public ResponseEntity<ClientDTO> insert(@PathVariable Long plansId, @RequestBody ClientDTO dto){
+        Client client = clientService.insert(plansId, dto);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(client.getId()).toUri();
+        return ResponseEntity.created(uri).body(new ClientDTO(client));
     }
 
 }

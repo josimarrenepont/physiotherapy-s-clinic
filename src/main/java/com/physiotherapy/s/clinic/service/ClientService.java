@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class ClientService {
@@ -40,9 +39,12 @@ public class ClientService {
         return obj.orElseThrow(() -> new ResourceNotFoundExceptions(id));
     }
 
-    public Client insert(ClientDTO obj) {
-        Client client;
-        client = new Client();
+    public Client insert(Long plansId, ClientDTO obj) {
+        Plans plans = plansRepository.findById(plansId).
+                orElseThrow(() -> new ResourceNotFoundExceptions("Plans not found with Id: " + plansId));
+        Client client = new Client();
+        client.setPlans(plans);
+        client.setId(plans.getId());
         client.setName(obj.getName());
         client.setRg(obj.getRg());
         client.setCpf(obj.getCpf());
@@ -52,8 +54,11 @@ public class ClientService {
         client.setProfession(obj.getProfession());
         client.setDateOfBirth(obj.getDateOfBirth());
         client.setSex(obj.getSex());
+        client.getDependents().size();
 
+        plansRepository.save(plans);
         return clientRepository.save(client);
+
     }
     public void delete(Long id) {
         try{

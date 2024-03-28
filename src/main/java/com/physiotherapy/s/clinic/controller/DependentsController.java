@@ -1,7 +1,7 @@
 package com.physiotherapy.s.clinic.controller;
 
-import com.physiotherapy.s.clinic.entities.Client;
 import com.physiotherapy.s.clinic.entities.Dependents;
+import com.physiotherapy.s.clinic.entities.dto.DependentsDTO;
 import com.physiotherapy.s.clinic.repository.ClientRepository;
 import com.physiotherapy.s.clinic.repository.DependentsRepository;
 import com.physiotherapy.s.clinic.service.DependentsService;
@@ -12,7 +12,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/dependents")
@@ -25,20 +25,22 @@ public class DependentsController {
     private DependentsRepository dependentsRepository;
 
     @GetMapping
-    public ResponseEntity<List<Dependents>> findAll(){
+    public ResponseEntity<List<DependentsDTO>> findAll(){
         List<Dependents> list = dependentsService.findAll();
-        return ResponseEntity.ok().body(list);
+        List<DependentsDTO> dtoList = list.stream().map(DependentsDTO::new).collect(Collectors.toList());
+        return ResponseEntity.ok().body(dtoList);
     }
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Dependents> findById(@PathVariable Long id){
+    public ResponseEntity<DependentsDTO> findById(@PathVariable Long id){
         Dependents obj = dependentsService.findById(id);
-        return ResponseEntity.ok().body(obj);
+        DependentsDTO objDto = new DependentsDTO(obj);
+        return ResponseEntity.ok().body(objDto);
     }
     @PostMapping(value = "/{clientId}")
-    public ResponseEntity<Dependents> insert(@PathVariable Long clientId, @RequestBody Dependents obj){
-        Dependents dependent = dependentsService.insert(clientId, obj);
+    public ResponseEntity<DependentsDTO> insert(@PathVariable Long clientId, @RequestBody DependentsDTO dto){
+        Dependents dependent = dependentsService.insert(clientId, dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dependent.getId()).toUri();
-        return ResponseEntity.created(uri).body(dependent);
+        return ResponseEntity.created(uri).body(new DependentsDTO(dependent));
     }
 
     @DeleteMapping(value = "/{id}")
@@ -47,8 +49,9 @@ public class DependentsController {
         return ResponseEntity.noContent().build();
     }
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Dependents> update(@PathVariable Long id, @RequestBody Dependents obj){
-        obj = dependentsService.update(id, obj);
-        return ResponseEntity.ok().body(obj);
+    public ResponseEntity<DependentsDTO> update(@PathVariable Long id, @RequestBody DependentsDTO dto){
+        Dependents obj = dependentsService.update(id, dto);
+        DependentsDTO dependentsDTO = new DependentsDTO(obj);
+        return ResponseEntity.ok().body(dependentsDTO);
     }
 }

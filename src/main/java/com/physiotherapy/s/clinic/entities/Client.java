@@ -2,6 +2,7 @@ package com.physiotherapy.s.clinic.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -131,12 +132,16 @@ public class Client implements Serializable {
     public Set<Plans> getPlans() {
         return plans;
     }
+
     public Integer getTotalNumberOfDependents(){
         return this.dependents.size();
     }
 
     public void setTotalNumberOfDependents(int totalNumberOfDependents) {
         setTotalNumberOfDependents(getTotalNumberOfDependents());
+    }
+    public void setDependents(Set<Dependents> dependents) {
+        this.dependents = dependents;
     }
     public Collection<Object> getDependents() {
         return Arrays.asList(dependents.toArray());
@@ -160,4 +165,7 @@ public class Client implements Serializable {
                 getSex(), getMaritalStatus(), getEmail(), getTelephone(), getProfession());
     }
 
+    public void setPlans(Plans plans) {
+        this.setId(getId());
+    }
 }

@@ -15,7 +15,7 @@ public class Dependents implements Serializable {
     private String name;
     private String telephone;
     private String kinship;
-
+    private String cpf;
     @ManyToOne()
     private Client clients;
 
@@ -24,9 +24,10 @@ public class Dependents implements Serializable {
 
     public Dependents(){}
 
-    public Dependents(Long id, String name, String telephone, String kinship) {
+    public Dependents(Long id, String name, String cpf, String telephone, String kinship) {
         this.id = id;
         this.name = name;
+        this.cpf = cpf;
         this.telephone = telephone;
         this.kinship = kinship;
     }
@@ -45,6 +46,13 @@ public class Dependents implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
 
     public String getTelephone() {
@@ -68,24 +76,20 @@ public class Dependents implements Serializable {
     public void setPlans(Plans plans) {
         this.plans = plans;
     }
-
-
-
     public Client getClient() {
-        return this.clients;
+        return clients;
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Dependents that)) return false;
-        return Objects.equals(getId(), that.getId())
-                && Objects.equals(getName(), that.getName())
-                && Objects.equals(getKinship(), that.getKinship());
+        return Objects.equals(getId(), that.getId()) && Objects.equals(getName(), that.getName()) && Objects.equals(getTelephone(), that.getTelephone()) && Objects.equals(getKinship(), that.getKinship()) && Objects.equals(getCpf(), that.getCpf());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName(), getKinship());
+        return Objects.hash(getId(), getName(), getTelephone(), getKinship(), getCpf());
     }
 
 }

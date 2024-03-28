@@ -3,6 +3,7 @@ package com.physiotherapy.s.clinic.service;
 import com.physiotherapy.s.clinic.entities.Client;
 import com.physiotherapy.s.clinic.entities.Dependents;
 import com.physiotherapy.s.clinic.entities.Plans;
+import com.physiotherapy.s.clinic.entities.dto.DependentsDTO;
 import com.physiotherapy.s.clinic.repository.ClientRepository;
 import com.physiotherapy.s.clinic.repository.DependentsRepository;
 import com.physiotherapy.s.clinic.repository.PlansRepository;
@@ -16,7 +17,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class DependentsService {
@@ -46,7 +46,7 @@ public class DependentsService {
             throw new DatabaseExceptions(e.getMessage());
         }
     }
-    public Dependents update(Long id, Dependents obj){
+    public Dependents update(Long id, DependentsDTO obj){
         try {
             Dependents entity = dependentsRepository.getReferenceById(id);
             updateData(entity, obj);
@@ -56,7 +56,7 @@ public class DependentsService {
         }
     }
 
-    private void updateData(Dependents entity, Dependents obj) {
+    private void updateData(Dependents entity, DependentsDTO obj) {
         entity.setTelephone(obj.getTelephone());
     }
 
@@ -97,10 +97,17 @@ public class DependentsService {
         return dependents;
     }
 
-    public Dependents insert(Long clientId, Dependents obj) {
+    public Dependents insert(Long clientId, DependentsDTO obj) {
         Client client = clientRepository.findById(clientId).orElseThrow(
                 () -> new ResourceNotFoundExceptions("Client not found with Id: " + clientId));
-        obj.setClient(client);
-        return dependentsRepository.save(obj);
+        Dependents dependents = new Dependents();
+        dependents.setClient(client);
+        dependents.setName(obj.getName());
+        dependents.setId(obj.getId());
+        dependents.setCpf(obj.getCpf());
+        dependents.setKinship(obj.getKinship());
+        dependents.setTelephone(obj.getTelephone());
+
+        return dependentsRepository.save(dependents);
     }
 }

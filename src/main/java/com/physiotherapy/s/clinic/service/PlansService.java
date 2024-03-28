@@ -2,6 +2,7 @@ package com.physiotherapy.s.clinic.service;
 
 import com.physiotherapy.s.clinic.entities.Client;
 import com.physiotherapy.s.clinic.entities.Plans;
+import com.physiotherapy.s.clinic.entities.dto.ClientDTO;
 import com.physiotherapy.s.clinic.repository.ClientRepository;
 import com.physiotherapy.s.clinic.repository.PlansRepository;
 import com.physiotherapy.s.clinic.service.exceptions.ResourceNotFoundExceptions;
@@ -63,5 +64,4 @@ public Double getTotalPriceWithDependents(Long plansId, Long clientId) {
 
     return plans.getTotalPriceWithDependents(client);
 }
-
 }
