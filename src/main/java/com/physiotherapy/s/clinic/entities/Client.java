@@ -140,6 +140,7 @@ public class Client implements Serializable {
     public void setTotalNumberOfDependents(int totalNumberOfDependents) {
         setTotalNumberOfDependents(getTotalNumberOfDependents());
     }
+
     public void setDependents(Set<Dependents> dependents) {
         this.dependents = dependents;
     }

@@ -2,19 +2,36 @@ import axios from 'axios';
 import React, { useState } from 'react';
 
 const PlanUpdateForm: React.FC = () => {
-  const [moment, setMoment] = useState('');
+  const currentDate = new Date();
+  const formattedDate = `${currentDate.getDate().toString().padStart(2, '0')}/${(currentDate.getMonth() + 1).toString().padStart(2, '0')}/${currentDate.getFullYear()}`;
+
+  const [id, setId] = useState('');
+  const [moment, setMoment] = useState(formattedDate);
   const [additionalPricePerson, setAdditionalPricePerson] = useState('');
   const [price, setPrice] = useState('');
+
+  const getRandomPlan = async () => {
+    try {
+      const response = await axios.get('http://localhost:8080/plans/random');
+      const planData = response.data;
+      setId(planData.id.toString());
+      setMoment(planData.moment);
+      setAdditionalPricePerson(planData.additionalPricePerson.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }));
+      setPrice(planData.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }));
+    } catch (error) {
+      console.error('Erro ao buscar plano:', error);
+    }
+  };
 
   const handlePlanUpdate = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      const response = await axios.put('http://localhost:8080/api/plan', {
+      await axios.put(`http://localhost:8080/plans/${id}`, {
         moment: moment,
-        additionalPricePerson: additionalPricePerson,
-        price: price
+        additionalPricePerson: additionalPricePerson.replace(',', '.'),
+        price: price.replace(',', '.')
       });
-      console.log('Plano atualizado com sucesso:', response.data);
+      console.log('Plano atualizado com sucesso');
     } catch (error) {
       console.error('Erro ao atualizar plano:', error);
     }
@@ -23,8 +40,16 @@ const PlanUpdateForm: React.FC = () => {
   return (
     <div>
       <h2>Atualizar Plano</h2>
+      <button onClick={getRandomPlan}>Buscar Plano</button>
       <form onSubmit={handlePlanUpdate}>
-        <label htmlFor="moment">Data do Plano (DD/MM/YYYY):</label>
+        <label htmlFor="id">ID do Plano:</label>
+        <input
+          id="id"
+          type="long"
+          value={id}
+          onChange={(e) => setId(e.target.value)}
+        />
+        <label htmlFor="moment">Data:</label>
         <input
           type="text"
           value={moment}
@@ -37,7 +62,7 @@ const PlanUpdateForm: React.FC = () => {
           value={additionalPricePerson}
           onChange={(e) => setAdditionalPricePerson(e.target.value)}
         />
-        <label htmlFor="price">Preço Total:</label>
+        <label htmlFor="price">Preço:</label>
         <input
           id="price"
           type="text"
@@ -51,4 +76,3 @@ const PlanUpdateForm: React.FC = () => {
 };
 
 export default PlanUpdateForm;
-

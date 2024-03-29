@@ -16,7 +16,7 @@ const ClientRegistrationForm: React.FC = () => {
   const handleClientSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8080/api/client', {
+      const response = await axios.post('http://localhost:8080/clients', {
         name: clientName,
         cpf: clientCPF,
         rg: clientRG,

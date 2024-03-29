@@ -35,9 +35,9 @@ public class PlansController {
         return ResponseEntity.ok().body(obj);
     }
 
-    @PutMapping(value = "/{id}")
-    public ResponseEntity<Plans> update(@PathVariable Long id, @RequestBody Plans obj){
-        obj = plansService.update(id, obj);
+    @PutMapping(value = "/{plansId}")
+    public ResponseEntity<Plans> update(@PathVariable Long plansId, @RequestBody Plans obj){
+        obj = plansService.update(plansId, obj);
         return ResponseEntity.ok().body(obj);
     }
     @PostMapping
@@ -50,4 +50,10 @@ public class PlansController {
         Double totalPrice = plansService.getTotalPriceWithDependents(id, clientId);
         return ResponseEntity.ok().body(totalPrice);
     }
+    @GetMapping(value = "/random")
+    public ResponseEntity<Plans> getRandomPlan(){
+        Plans obj = plansService.getRandomPlan();
+        return ResponseEntity.ok().body(obj);
+    }
+
 }

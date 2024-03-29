@@ -10,8 +10,10 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 public class PlansService {
@@ -45,11 +47,13 @@ public class PlansService {
         }
         if (obj.getMoment() != null) {
             entity.setMoment(obj.getMoment());
+        } else {
+            entity.setMoment(LocalDate.now());
         }
 
         entity.setPrice(obj.getPrice());
-
     }
+
 
     public Plans insert(Plans obj) {
         return plansRepository.save(obj);
@@ -64,4 +68,13 @@ public Double getTotalPriceWithDependents(Long plansId, Long clientId) {
 
     return plans.getTotalPriceWithDependents(client);
 }
+    public Plans getRandomPlan() {
+        List<Plans> allPlans = plansRepository.findAll();
+        if (allPlans.isEmpty()) {
+            throw new ResourceNotFoundExceptions("No plans available");
+        }
+        int randomIndex = new Random().nextInt(allPlans.size());
+        return allPlans.get(randomIndex);
+    }
+
 }
