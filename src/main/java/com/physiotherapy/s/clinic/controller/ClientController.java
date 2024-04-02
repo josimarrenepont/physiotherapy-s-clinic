@@ -60,9 +60,9 @@ public class ClientController {
         clientService.delete(id);
         return ResponseEntity.noContent().build();
     }
-    @PostMapping(value = "/{plansId}")
-    public ResponseEntity<ClientDTO> insert(@PathVariable Long plansId, @RequestBody ClientDTO dto){
-        Client client = clientService.insert(plansId, dto);
+    @PostMapping
+    public ResponseEntity<ClientDTO> insert(@RequestBody ClientDTO dto){
+        Client client = clientService.insert(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(client.getId()).toUri();
         return ResponseEntity.created(uri).body(new ClientDTO(client));
     }

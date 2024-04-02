@@ -16,6 +16,7 @@ public class Plans implements Serializable {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate moment;
     private Double additionalPricePerson;
+    
     private Double price;
 
     @OneToMany(mappedBy = "plans")

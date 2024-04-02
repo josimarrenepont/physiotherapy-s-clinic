@@ -39,12 +39,9 @@ public class ClientService {
         return obj.orElseThrow(() -> new ResourceNotFoundExceptions(id));
     }
 
-    public Client insert(Long plansId, ClientDTO obj) {
-        Plans plans = plansRepository.findById(plansId).
-                orElseThrow(() -> new ResourceNotFoundExceptions("Plans not found with Id: " + plansId));
+    public Client insert(ClientDTO obj) {
+
         Client client = new Client();
-        client.setPlans(plans);
-        client.setId(plans.getId());
         client.setName(obj.getName());
         client.setRg(obj.getRg());
         client.setCpf(obj.getCpf());
@@ -55,10 +52,7 @@ public class ClientService {
         client.setDateOfBirth(obj.getDateOfBirth());
         client.setSex(obj.getSex());
         client.getDependents().size();
-
-        plansRepository.save(plans);
         return clientRepository.save(client);
-
     }
     public void delete(Long id) {
         try{

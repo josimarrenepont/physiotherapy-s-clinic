@@ -4,7 +4,7 @@ div {
   max-width: 800px;
   margin: 0 auto;
   padding: 15px;
-  background-color: #f9f9f9;
+  background-color: #0c0505;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   
@@ -73,7 +73,7 @@ p {
   color: #777;
 }
 body {
-  background-image: url('src/assets'); /* Substitua pelo caminho correto da sua imagem */
+  background-image: url('src/assets/baixados.jpg'); /* Substitua pelo caminho correto da sua imagem */
   background-size: 400px; /* Para ajustar a imagem ao tamanho da tela */
   background-repeat: no-repeat; /* Para evitar a repetição da imagem */
   
