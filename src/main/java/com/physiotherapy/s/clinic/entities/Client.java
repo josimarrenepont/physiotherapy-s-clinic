@@ -28,10 +28,9 @@ public class Client implements Serializable {
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(name = "plans_client", joinColumns = @JoinColumn(name = "client_id"),
             inverseJoinColumns = @JoinColumn(name = "plans_id"))
-    @JsonIgnore
     private Set<Plans> plans = new HashSet<>();
 
-    @OneToMany(mappedBy = "clients")
+    @ManyToMany(mappedBy = "clients")
     private Set<Dependents> dependents = new HashSet<>();
     public Client(){}
 

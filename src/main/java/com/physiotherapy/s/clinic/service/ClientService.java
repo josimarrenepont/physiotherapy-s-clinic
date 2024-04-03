@@ -77,6 +77,7 @@ public class ClientService {
         entity.setEmail(obj.getEmail());
         entity.setMaritalStatus(obj.getMaritalStatus());
         entity.setTelephone(obj.getTelephone());
+        entity.setProfession(obj.getProfession());
     }
     public void associateDependent(Long dependentsId, Long clientId){
         Optional<Dependents> optionalDependents = dependentsRepository.findById(dependentsId);

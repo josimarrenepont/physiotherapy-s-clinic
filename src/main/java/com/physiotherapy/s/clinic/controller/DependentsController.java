@@ -38,9 +38,9 @@ public class DependentsController {
     }
     @PostMapping(value = "/{clientId}")
     public ResponseEntity<DependentsDTO> insert(@PathVariable Long clientId, @RequestBody DependentsDTO dto){
-        Dependents dependent = dependentsService.insert(clientId, dto);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dependent.getId()).toUri();
-        return ResponseEntity.created(uri).body(new DependentsDTO(dependent));
+        Dependents dependents = dependentsService.insert(clientId, dto);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dependents.getId()).toUri();
+        return ResponseEntity.created(uri).body(new DependentsDTO(dependents));
     }
 
     @DeleteMapping(value = "/{id}")
