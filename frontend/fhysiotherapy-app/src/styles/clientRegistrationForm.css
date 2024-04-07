@@ -61,9 +61,4 @@ button[type="submit"] {
 button[type="submit"]:hover {
   background-color: #0056b3;
 }
-body {
-  background-image: url('src/assets/fisioplat.jpg'); /* Substitua pelo caminho correto da sua imagem */
-  background-size: 500px; /* Para ajustar a imagem ao tamanho da tela */
-  background-repeat: no-repeat; /* Para evitar a repetição da imagem */
-  
-}
+

@@ -2,7 +2,6 @@ package com.physiotherapy.s.clinic.service;
 
 import com.physiotherapy.s.clinic.entities.Client;
 import com.physiotherapy.s.clinic.entities.Dependents;
-import com.physiotherapy.s.clinic.entities.Plans;
 import com.physiotherapy.s.clinic.entities.dto.ClientDTO;
 import com.physiotherapy.s.clinic.repository.ClientRepository;
 import com.physiotherapy.s.clinic.repository.DependentsRepository;
@@ -15,8 +14,11 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ClientService {
@@ -40,7 +42,6 @@ public class ClientService {
     }
 
     public Client insert(ClientDTO obj) {
-
         Client client = new Client();
         client.setName(obj.getName());
         client.setRg(obj.getRg());
@@ -52,23 +53,26 @@ public class ClientService {
         client.setDateOfBirth(obj.getDateOfBirth());
         client.setSex(obj.getSex());
         client.getDependents().size();
+        client.setRegister(Instant.now());
         return clientRepository.save(client);
     }
+
     public void delete(Long id) {
-        try{
+        try {
             clientRepository.deleteById(id);
-        }catch (EmptyResultDataAccessException e) {
+        } catch (EmptyResultDataAccessException e) {
             throw new ResourceNotFoundExceptions(id);
-        }catch (DataIntegrityViolationException e){
+        } catch (DataIntegrityViolationException e) {
             throw new DatabaseExceptions(e.getMessage());
         }
     }
+
     public Client update(Long id, ClientDTO obj) {
         try {
             Client entity = clientRepository.getReferenceById(id);
             updateData(entity, obj);
             return clientRepository.save(entity);
-        }catch (EntityNotFoundException e){
+        } catch (EntityNotFoundException e) {
             throw new ResourceNotFoundExceptions(id);
         }
     }
@@ -79,13 +83,14 @@ public class ClientService {
         entity.setTelephone(obj.getTelephone());
         entity.setProfession(obj.getProfession());
     }
-    public void associateDependent(Long dependentsId, Long clientId){
+
+    public void associateDependent(Long dependentsId, Long clientId) {
         Optional<Dependents> optionalDependents = dependentsRepository.findById(dependentsId);
         Optional<Client> optionalClient = clientRepository.findById(clientId);
-        if(!optionalDependents.isPresent()){
+        if (!optionalDependents.isPresent()) {
             throw new EntityNotFoundException("Dependents not found, Id! " + dependentsId);
         }
-        if(!optionalClient.isPresent()){
+        if (!optionalClient.isPresent()) {
             throw new EntityNotFoundException("Client not found, Id! " + clientId);
         }
 
@@ -97,6 +102,7 @@ public class ClientService {
         dependentsRepository.save(dependents);
         clientRepository.save(client);
     }
+
 }
 
 

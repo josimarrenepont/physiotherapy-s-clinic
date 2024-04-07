@@ -16,6 +16,7 @@ const ClientRegistrationForm: React.FC = () => {
   const handleClientSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
+      const currentDate = new Date().toISOString(); // Obtém a data atual em formato ISO
       const response = await axios.post('http://localhost:8080/clients', {
         name: name,
         cpf: cpf,
@@ -25,19 +26,25 @@ const ClientRegistrationForm: React.FC = () => {
         maritalStatus: maritalStatus,
         email: email,
         telephone: telephone,
-        profession: profession // Enviar o ID do plano como parte do corpo da solicitação
+        profession: profession,
+        register: currentDate // Envia a data atual como registro
+      }, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
       });
       console.log('Cliente registrado com sucesso:', response.data);
+      // Recarrega a página após o registro bem-sucedido
+    window.location.reload();
     } catch (error) {
       console.error('Erro ao registrar cliente:', error);
     }
   };
-  
 
   return (
     <div>
-    <h2>Registrar Cliente</h2>
-    <form onSubmit={handleClientSubmit}>
+      <h2>Registrar Cliente</h2>
+      <form onSubmit={handleClientSubmit}>
 
         <label htmlFor="name">Nome do Cliente:</label>
         <input

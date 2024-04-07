@@ -20,6 +20,7 @@ const DependentRegistrationForm: React.FC = () => {
       try {
         const response = await axios.get(`http://localhost:8080/clients`);
         setDependents(response.data);
+        
       } catch (error) {
         console.error('Erro ao buscar clientes:', error);
       }

@@ -32,6 +32,7 @@ const PlanUpdateForm: React.FC = () => {
         price: price.replace(',', '.')
       });
       console.log('Plano atualizado com sucesso');
+      window.location.reload();
     } catch (error) {
       console.error('Erro ao atualizar plano:', error);
     }

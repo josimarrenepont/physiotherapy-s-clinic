@@ -1,84 +1,50 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
-import ClientFilter from './components/ClientFilter';
 import ClientRegistrationForm from './components/ClientRegistrationForm';
+import ClientTotalPrice from './components/ClientTotalPrice';
 import DependentRegistrationForm from './components/DependentRegistrationForm';
+import Header from './components/Header'; // Importe o componente Header
 import PlanUpdateForm from './components/PlanUpdateForm';
-import UpcomingPaymentsList from './components/UpcomingPaymentsList';
 import './styles/buttons.css';
 import './styles/clientRegistrationForm.css';
+import './styles/totalPrice.css';
 
 const App: React.FC = () => {
-  const [registered, setRegistered] = useState(false);
-  const [planUpdated, setPlanUpdated] = useState(false);
-  
-
-  useEffect(() => {
-    if (registered || planUpdated) {
-      // Recarrega a página após 2 segundos
-      const timer = setTimeout(() => {
-        window.location.reload();
-      }, 2000);
-
-      return () => clearTimeout(timer); // Limpa o timer se o componente for desmontado antes do tempo limite
-    }
-  }, [registered, planUpdated]);
-
-  const handleRegistration = () => {
-    // Lógica de registro aqui
-    // Após o registro, atualiza o estado para true
-    setRegistered(true);
-  };
-
-  const handlePlanUpdate = () => {
-    // Lógica de atualização do plano aqui
-    // Após a atualização, atualiza o estado para true
-    setPlanUpdated(true);
-  };
-
   return (
     <Router>
-      <div>
-        <nav>
-          <ul>
-            {!registered && !planUpdated && (
-              <>
-                <li>
-                  <Link to="/client-registration">Registrar Cliente</Link>
-                </li>
-                <li>
-                  <Link to="/dependent-registration">Registrar Dependente</Link>
-                </li>
-              </>
-            )}
+      <div className="app-container"> {/* Container principal */}
+        <Header /> {/* Componente Header */}
+        <nav className="nav-container"> {/* Container da navegação */}
+          <ul className="nav-list"> {/* Lista de links */}
             <li>
-              <Link to="/plan-update">Atualizar Plano</Link>
+              <button className="nav-button">
+                <Link to="/client-registration" className="nav-link">Registrar Cliente</Link>
+              </button>
             </li>
             <li>
-              <Link to="/client-filter">Filtrar Cliente</Link>
+              <button className="nav-button">
+                <Link to="/dependent-registration" className="nav-link">Registrar Dependente</Link>
+              </button>
             </li>
             <li>
-              <Link to="/upcoming-payments">Pagamentos Futuros</Link>
+              <button className="nav-button">
+                <Link to="/plan-update" className="nav-link">Atualizar Plano</Link>
+              </button>
+            </li>
+            <li>
+              <button className="nav-button">
+                <Link to="/client-total-price" className="nav-link">Valor Total do Plano</Link>
+              </button>
             </li>
           </ul>
         </nav>
 
-        <div>
+        <div className="content-container"> {/* Container do conteúdo */}
           <Routes>
-            <Route
-              path="/client-registration"
-              element={<ClientRegistrationForm onRegister={handleRegistration} />}
-            />
-            <Route
-              path="/dependent-registration"
-              element={<DependentRegistrationForm onRegister={handleRegistration} />}
-            />
-            <Route
-              path="/plan-update"
-              element={<PlanUpdateForm onUpdate={handlePlanUpdate} />}
-            />
-            <Route path="/client-filter" element={<ClientFilter />} />
-            <Route path="/upcoming-payments" element={<UpcomingPaymentsList />} />
+            <Route path="/client-registration" element={<ClientRegistrationForm />} />
+            <Route path="/dependent-registration" element={<DependentRegistrationForm />} />
+            <Route path="/plan-update" element={<PlanUpdateForm />} />
+            <Route path="/client-total-price" element={<ClientTotalPrice />} />
           </Routes>
         </div>
       </div>

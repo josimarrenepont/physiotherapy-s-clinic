@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import java.io.Serializable;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -14,6 +15,7 @@ public class Client implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private Instant register;
     private String name;
     private Integer cpf;
     private Integer rg;
@@ -36,7 +38,7 @@ public class Client implements Serializable {
 
     public Client(Long id, String name, Integer cpf, Integer rg, LocalDate dateOfBirth,
                   Character sex, String maritalStatus, String email, String telephone,
-                  String profession) {
+                  String profession, Instant register) {
         this.id = id;
         this.name = name;
         this.cpf = cpf;
@@ -47,6 +49,8 @@ public class Client implements Serializable {
         this.email = email;
         this.telephone = telephone;
         this.profession = profession;
+        this.register = register;
+        this.plans = getPlans();
     }
 
     public Long getId() {
@@ -128,6 +132,14 @@ public class Client implements Serializable {
         this.profession = profession;
     }
 
+    public Instant getRegister() {
+        return register;
+    }
+
+    public void setRegister(Instant register) {
+        this.register = register;
+    }
+
     public Set<Plans> getPlans() {
         return plans;
     }
@@ -138,6 +150,9 @@ public class Client implements Serializable {
 
     public void setTotalNumberOfDependents(int totalNumberOfDependents) {
         setTotalNumberOfDependents(getTotalNumberOfDependents());
+    }
+    public void setPlans(Plans plans) {
+        this.setId(getId());
     }
 
     public void setDependents(Set<Dependents> dependents) {
@@ -163,9 +178,5 @@ public class Client implements Serializable {
     public int hashCode() {
         return Objects.hash(getId(), getName(), getCpf(), getRg(), getDateOfBirth(),
                 getSex(), getMaritalStatus(), getEmail(), getTelephone(), getProfession());
-    }
-
-    public void setPlans(Plans plans) {
-        this.setId(getId());
     }
 }
