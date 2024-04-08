@@ -3,6 +3,7 @@ import { Link, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import ClientRegistrationForm from './components/ClientRegistrationForm';
 import ClientTotalPrice from './components/ClientTotalPrice';
 import DependentRegistrationForm from './components/DependentRegistrationForm';
+import Footer from './components/Footer'; // Importe o componente Footer
 import Header from './components/Header'; // Importe o componente Header
 import PlanUpdateForm from './components/PlanUpdateForm';
 import './styles/buttons.css';
@@ -47,6 +48,8 @@ const App: React.FC = () => {
             <Route path="/client-total-price" element={<ClientTotalPrice />} />
           </Routes>
         </div>
+
+        <Footer /> {/* Componente Footer */}
       </div>
     </Router>
   );

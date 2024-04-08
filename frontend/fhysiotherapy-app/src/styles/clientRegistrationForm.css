@@ -4,7 +4,7 @@ body {
   align-items: center;
   min-height: 100vh;
   margin: 0;
-  background-color: #ffffff; /* Cor de fundo opcional */
+  background-color: #e6e8e3; /* Cor de fundo opcional */
 }
 
 form {
@@ -61,4 +61,26 @@ button[type="submit"] {
 button[type="submit"]:hover {
   background-color: #0056b3;
 }
+/* styles.css */
+.header-container {
+  background-color: #f8f8f8; /* Cor de fundo do cabeçalho */
+  padding: 20px; /* Espaçamento interno do cabeçalho */
+  text-align: center; /* Centraliza o conteúdo do cabeçalho */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo-image {
+  max-width: 150px; /* Define o tamanho máximo da imagem da logomarca */
+  height: auto; /* Altura da imagem ajustada automaticamente */
+}
+
+.app-container {
+  background-image: url('/src/assets/.jpg'); /* URL da imagem de fundo */
+  background-size: cover; /* Ajusta a imagem de fundo para cobrir todo o container */
+  background-repeat: no-repeat; /* Evita a repetição da imagem de fundo */
+}
+
+
 
