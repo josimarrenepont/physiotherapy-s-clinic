@@ -55,6 +55,12 @@ public class ClientController {
         ClientDTO objDTO = new ClientDTO(obj);
         return ResponseEntity.ok().body(objDTO);
     }
+    @GetMapping(value = "/findByName")
+    public ResponseEntity<ClientDTO> findByName(@RequestParam String name){
+        Client client = clientService.findByName(name);
+        ClientDTO clientDTO = new ClientDTO(client);
+        return ResponseEntity.ok().body(clientDTO);
+    }
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
         clientService.delete(id);

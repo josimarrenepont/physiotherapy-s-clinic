@@ -78,6 +78,7 @@ public class ClientService {
     }
 
     private void updateData(Client entity, ClientDTO obj) {
+        entity.setName(obj.getName());
         entity.setEmail(obj.getEmail());
         entity.setMaritalStatus(obj.getMaritalStatus());
         entity.setTelephone(obj.getTelephone());
@@ -103,6 +104,14 @@ public class ClientService {
         clientRepository.save(client);
     }
 
+
+    public Client findByName(String name) {
+        try {
+            return clientRepository.findByName(name);
+        }catch (ResourceNotFoundExceptions e){
+            throw new ResourceNotFoundExceptions("Client not found " + name);
+        }
+    }
 }
 
 

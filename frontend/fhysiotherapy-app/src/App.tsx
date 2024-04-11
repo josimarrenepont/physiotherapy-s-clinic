@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import ClientRegistrationForm from './components/ClientRegistrationForm';
 import ClientTotalPrice from './components/ClientTotalPrice';
+import ClientUpdateForm from './components/ClientUpdateForm';
 import DependentRegistrationForm from './components/DependentRegistrationForm';
 import Footer from './components/Footer'; // Importe o componente Footer
 import Header from './components/Header'; // Importe o componente Header
@@ -32,9 +33,16 @@ const App: React.FC = () => {
                 <Link to="/plan-update" className="nav-link">Atualizar Plano</Link>
               </button>
             </li>
+            
             <li>
               <button className="nav-button">
                 <Link to="/client-total-price" className="nav-link">Valor Total do Plano</Link>
+              </button>
+            </li>
+            
+            <li>
+              <button className="nav-button">
+                <Link to="/update-client" className="nav-link">Atualizar Cliente</Link>
               </button>
             </li>
           </ul>
@@ -46,6 +54,8 @@ const App: React.FC = () => {
             <Route path="/dependent-registration" element={<DependentRegistrationForm />} />
             <Route path="/plan-update" element={<PlanUpdateForm />} />
             <Route path="/client-total-price" element={<ClientTotalPrice />} />
+            <Route path="/update-client" element={<ClientUpdateForm />} />
+
           </Routes>
         </div>
 

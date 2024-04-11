@@ -45,11 +45,13 @@ public class PlansController {
         obj = plansService.insert(obj);
         return ResponseEntity.ok().body(obj);
     }
+
     @GetMapping(value = "/{id}/totalPrice")
     public ResponseEntity<Double> getTotalPriceWithDependents(@PathVariable Long id, @RequestParam Long clientId) {
         Double totalPrice = plansService.getTotalPriceWithDependents(id, clientId);
         return ResponseEntity.ok().body(totalPrice);
     }
+
     @GetMapping(value = "/random")
     public ResponseEntity<Plans> getRandomPlan(){
         Plans obj = plansService.getRandomPlan();

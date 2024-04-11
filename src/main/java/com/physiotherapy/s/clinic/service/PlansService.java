@@ -53,8 +53,6 @@ public class PlansService {
 
         entity.setPrice(obj.getPrice());
     }
-
-
     public Plans insert(Plans obj) {
         return plansRepository.save(obj);
     }
@@ -68,6 +66,7 @@ public Double getTotalPriceWithDependents(Long plansId, Long clientId) {
 
     return plans.getTotalPriceWithDependents(client);
 }
+
     public Plans getRandomPlan() {
         List<Plans> allPlans = plansRepository.findAll();
         if (allPlans.isEmpty()) {
