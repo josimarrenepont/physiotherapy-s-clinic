@@ -1,5 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ClientUpdateByNameForm: React.FC = () => {
     const [name, setName] = useState('');
@@ -27,6 +29,10 @@ const ClientUpdateByNameForm: React.FC = () => {
         try {
             await axios.put(`http://localhost:8080/clients/${clientId}`, client);
             console.log('Cliente atualizado com sucesso');
+            toast.success('Cliente atualizado com sucesso');
+            setTimeout(() => {
+                window.location.href = '/'; // redireciona para a página inicial após 3 segundos
+              }, 3000);
         } catch (error) {
             console.error('Erro ao atualizar cliente:', error);
         }
@@ -91,6 +97,7 @@ const ClientUpdateByNameForm: React.FC = () => {
                     <button onClick={handleUpdate}>Atualizar</button>
                 </div>
             )}
+            <ToastContainer />
         </div>
     );
 };

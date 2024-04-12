@@ -7,9 +7,11 @@ import DependentRegistrationForm from './components/DependentRegistrationForm';
 import Footer from './components/Footer'; // Importe o componente Footer
 import Header from './components/Header'; // Importe o componente Header
 import PlanUpdateForm from './components/PlanUpdateForm';
+import './components/ValidateCpfRg';
 import './styles/buttons.css';
 import './styles/clientRegistrationForm.css';
 import './styles/totalPrice.css';
+
 
 const App: React.FC = () => {
   return (

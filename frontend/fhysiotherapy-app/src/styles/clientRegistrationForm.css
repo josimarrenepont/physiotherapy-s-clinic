@@ -87,6 +87,9 @@ body {
   background-repeat: no-repeat; /* Para evitar a repetição da imagem */
   
 }
+.invalid {
+  border: 1px solid red; /* Adicione um estilo visual para indicar que o campo é inválido */
+}
 
 
 

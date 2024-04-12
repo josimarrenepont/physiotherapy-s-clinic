@@ -1,5 +1,8 @@
 import axios from 'axios';
 import React, { useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { validateCPF, validateRG } from './ValidateCpfRg'; // Importe as funções de validação
 
 const ClientRegistrationForm: React.FC = () => {
   const [name, setName] = useState('');
@@ -11,12 +14,13 @@ const ClientRegistrationForm: React.FC = () => {
   const [maritalStatus, setMaritalStatus] = useState('');
   const [email, setEmail] = useState('');
   const [profession, setProfession] = useState('');
-
+  const [rgValid, setRgValid] = useState(true);
+  const[cpfValid, setCpfValid] = useState(true);
 
   const handleClientSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      const currentDate = new Date().toISOString(); // Obtém a data atual em formato ISO
+      const currentDate = new Date().toISOString();
       const response = await axios.post('http://localhost:8080/clients', {
         name: name,
         cpf: cpf,
@@ -27,17 +31,40 @@ const ClientRegistrationForm: React.FC = () => {
         email: email,
         telephone: telephone,
         profession: profession,
-        register: currentDate // Envia a data atual como registro
+        register: currentDate
       }, {
         headers: {
           'Content-Type': 'application/json'
         }
       });
+
       console.log('Cliente registrado com sucesso:', response.data);
-      // Recarrega a página após o registro bem-sucedido
-    window.location.reload();
+      toast.success('Cliente registrado com sucesso!');
+      setName('');
+      setCPF('');
+      setRG('');
+      setTelephone('');
+      setDateOfBirth('');
+      setSex('');
+      setMaritalStatus('');
+      setEmail('');
+      setProfession('');
+      setTimeout(() => {
+        window.location.href = '/';
+      }, 3000);
     } catch (error) {
       console.error('Erro ao registrar cliente:', error);
+    }
+  };
+
+  const handleRgChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setRG(value);
+
+    if (!validateCPF(value) && !validateRG(value)) {
+      setRgValid(false);
+    } else {
+      setRgValid(true);
     }
   };
 
@@ -45,7 +72,6 @@ const ClientRegistrationForm: React.FC = () => {
     <div>
       <h2>Registrar Cliente</h2>
       <form onSubmit={handleClientSubmit}>
-
         <label htmlFor="name">Nome do Cliente:</label>
         <input
           id="name"
@@ -54,20 +80,34 @@ const ClientRegistrationForm: React.FC = () => {
           onChange={(e) => setName(e.target.value)}
         />
         <label htmlFor="cpf">CPF:</label>
-        <input
+          <input
           id="cpf"
           type="text"
           value={cpf}
-          onChange={(e) => setCPF(e.target.value)}
-        />
-        <label htmlFor="clientRG">RG:</label>
+          onChange={(e) => {
+            setCPF(e.target.value);
+            setCpfValid(true); // Reseta o estado de validade do CPF ao modificar o valor
+      }}
+      className={!cpfValid ? 'invalid' : ''}
+      />
+    {!cpfValid && <p className="error-message">CPF inválido</p>} {/* Exibe a mensagem de erro */}      
+        
+        <label htmlFor="rg">RG:</label>
         <input
           id="rg"
           type="text"
           value={rg}
-          onChange={(e) => setRG(e.target.value)}
+          onChange={handleRgChange}
+          className={!rgValid ? 'invalid' : ''}
         />
-        <label htmlFor="DateOfBirth">Data de Nascimento:</label>
+        <label htmlFor="telephone">Telefone:</label>
+        <input
+          id="telephone"
+          type="text"
+          value={telephone}
+          onChange={(e) => setTelephone(e.target.value)}
+        />
+        <label htmlFor="dateOfBirth">Data de Nascimento:</label>
         <input
           id="dateOfBirth"
           type="text"
@@ -95,13 +135,6 @@ const ClientRegistrationForm: React.FC = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <label htmlFor="telephone">Telefone:</label>
-        <input
-          id="telephone"
-          type="text"
-          value={telephone}
-          onChange={(e) => setTelephone(e.target.value)}
-        />
         <label htmlFor="profession">Profissão:</label>
         <input
           id="profession"
@@ -111,6 +144,7 @@ const ClientRegistrationForm: React.FC = () => {
         />
         <button className="custom-button" type="submit">Registrar Cliente</button>
       </form>
+      <ToastContainer />
     </div>
   );
 };

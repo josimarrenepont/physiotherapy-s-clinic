@@ -1,7 +1,8 @@
-
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { validateCPF } from './ValidateCpfRg'; // Importe a função de validação de CPF
 interface Client {
   id: string;
   name: string;
@@ -14,13 +15,13 @@ const DependentRegistrationForm: React.FC = () => {
   const [kinship, setKinship] = useState('');
   const [cpf, setCpf] = useState('');
   const [clientId, setClientId] = useState('');
+  const [cpfValid, setCpfValid] = useState(true); // Adicione um estado para controlar a validade do CPF
 
   useEffect(() => {
     const fetchClients = async () => {
       try {
         const response = await axios.get(`http://localhost:8080/clients`);
         setDependents(response.data);
-        
       } catch (error) {
         console.error('Erro ao buscar clientes:', error);
       }
@@ -30,6 +31,13 @@ const DependentRegistrationForm: React.FC = () => {
 
   const handleDependentSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+
+    // Verifica se o CPF é válido
+    if (!validateCPF(cpf)) {
+      setCpfValid(false);
+      return;
+    }
+
     try {
       const response = await axios.post(`http://localhost:8080/dependents/${clientId}`, {
         name: name,
@@ -39,6 +47,15 @@ const DependentRegistrationForm: React.FC = () => {
       });
 
       console.log('Dependente registrado com sucesso:', response.data);
+      toast.success('Dependente registrado com sucesso!');
+      setName('');
+      setTelephone('');
+      setKinship('');
+      setCpf('');
+      setCpfValid(true); // Reseta o estado de validade do CPF
+      setTimeout(() => {
+        window.location.href = '/'; // redireciona para a página inicial após 3 segundos
+      }, 3000);
     } catch (error) {
       console.error('Erro ao registrar dependente:', error);
     }
@@ -58,7 +75,7 @@ const DependentRegistrationForm: React.FC = () => {
           />
           <label htmlFor="telephone">Telefone:</label>
           <input
-            id="telephone"       
+            id="telephone"
             type="text"
             value={telephone}
             onChange={(e) => setTelephone(e.target.value)}
@@ -75,8 +92,13 @@ const DependentRegistrationForm: React.FC = () => {
             id="cpf"
             type="text"
             value={cpf}
-            onChange={(e) => setCpf(e.target.value)}
+            onChange={(e) => {
+              setCpf(e.target.value);
+              setCpfValid(true); // Reseta o estado de validade do CPF ao modificar o valor
+            }}
+            className={!cpfValid ? 'invalid' : ''} // Adiciona uma classe para indicar que o CPF é inválido
           />
+          {!cpfValid && <p className="error-message">CPF inválido</p>} {/* Exibe a mensagem de erro */}
           <label htmlFor="clientId">Cliente:</label>
           <select value={clientId} onChange={(e) => setClientId(e.target.value)}>
             {dependents.map((client) => (
@@ -91,6 +113,7 @@ const DependentRegistrationForm: React.FC = () => {
       <div className="image-container">
         {}
       </div>
+      <ToastContainer />
     </div>
   );
 };
