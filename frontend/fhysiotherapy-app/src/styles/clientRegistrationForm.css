@@ -83,15 +83,24 @@ button[type="submit"]:hover {
 }
 body {
   background-image: url('src/assets/.jpg'); /* Substitua pelo caminho correto da sua imagem */
-  background-size: 1000px; /* Para ajustar a imagem ao tamanho da tela */
+  background-size: 300px; /* Para ajustar a imagem ao tamanho da tela */
   background-repeat: no-repeat; /* Para evitar a repetição da imagem */
   
 }
 .invalid {
   border: 1px solid red; /* Adicione um estilo visual para indicar que o campo é inválido */
 }
+/* Estilos para telas pequenas (celulares) */
+@media (max-width: 767px) {
+  /* Defina o layout e o tamanho dos elementos para telas pequenas */
+}
 
+/* Estilos para telas médias (tablets) */
+@media (min-width: 768px) and (max-width: 991px) {
+  /* Defina o layout e o tamanho dos elementos para telas médias */
+}
 
-
-
-
+/* Estilos para telas grandes (desktops) */
+@media (min-width: 992px) {
+  /* Defina o layout e o tamanho dos elementos para telas grandes */
+}

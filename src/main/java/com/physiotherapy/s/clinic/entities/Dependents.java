@@ -16,7 +16,7 @@ public class Dependents implements Serializable {
     private String telephone;
     private String kinship;
     private String cpf;
-    @ManyToOne()
+    @ManyToOne
     private Client clients;
 
     @ManyToOne

@@ -77,27 +77,29 @@ const PlanTotalPrice: React.FC = () => {
 
             <button onClick={handleGetTotalPrice}>Preço Total</button>
             {clientInfo && totalPrice !== null && (
-                <table className="client-table">
-                    <thead>
+                <div>
                     <h3>Informações do Cliente:</h3>
-                        <tr>
-                            <th>Nome do Cliente</th>
-                            <th>ID do Cliente</th>
-                            <th>E-mail</th>
-                            <th>Celular</th>
-                            <th>Preço Total do Plano</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>{clientInfo.name}</td>
-                            <td>{clientInfo.id}</td>
-                            <td>{clientInfo.email}</td>
-                            <td>{clientInfo.telephone}</td>
-                            <td>{"R$ " + totalPrice}</td>
-                        </tr>
-                    </tbody>
-                </table>
+                    <table className="client-table">
+                        <thead>
+                            <tr>
+                                <th>Nome do Cliente</th>
+                                <th>ID do Cliente</th>
+                                <th>E-mail</th>
+                                <th>Celular</th>
+                                <th>Preço Total do Plano</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{clientInfo.name}</td>
+                                <td>{clientInfo.id}</td>
+                                <td>{clientInfo.email}</td>
+                                <td>{clientInfo.telephone}</td>
+                                <td>{"R$ " + totalPrice}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             )}
         </div>
     );

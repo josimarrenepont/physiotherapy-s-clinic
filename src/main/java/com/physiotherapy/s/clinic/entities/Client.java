@@ -32,7 +32,7 @@ public class Client implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "plans_id"))
     private Set<Plans> plans = new HashSet<>();
 
-    @ManyToMany(mappedBy = "clients")
+    @OneToMany(mappedBy = "clients")
     private Set<Dependents> dependents = new HashSet<>();
     public Client(){}
 
