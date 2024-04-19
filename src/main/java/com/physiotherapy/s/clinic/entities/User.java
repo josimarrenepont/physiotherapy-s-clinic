@@ -149,11 +149,18 @@ public class User implements UserDetails, Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof User user)) return false;
-        return Objects.equals(getId(), user.getId()) && Objects.equals(getUserName(), user.getUserName()) && Objects.equals(getPassword(), user.getPassword()) && Objects.equals(isAccountNonExpired(), user.isAccountNonExpired()) && Objects.equals(isAccountNonLocked(), user.isAccountNonLocked()) && Objects.equals(isCredentialsNonExpired(), user.isCredentialsNonExpired()) && Objects.equals(isEnabled(), user.isEnabled()) && Objects.equals(getPermissions(), user.getPermissions());
+        return Objects.equals(getId(), user.getId())
+                && Objects.equals(getUserName(), user.getUserName())
+                && Objects.equals(getPassword(), user.getPassword())
+                && Objects.equals(isAccountNonExpired(), user.isAccountNonExpired())
+                && Objects.equals(isAccountNonLocked(), user.isAccountNonLocked())
+                && Objects.equals(isCredentialsNonExpired(), user.isCredentialsNonExpired())
+                && Objects.equals(isEnabled(), user.isEnabled()) && Objects.equals(getPermissions(), user.getPermissions());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getUserName(), getPassword(), isAccountNonExpired(), isAccountNonLocked(), isCredentialsNonExpired(), isEnabled(), getPermissions());
+        return Objects.hash(getId(), getUserName(), getPassword(), isAccountNonExpired(),
+                isAccountNonLocked(), isCredentialsNonExpired(), isEnabled(), getPermissions());
     }
 }
