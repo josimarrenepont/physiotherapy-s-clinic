@@ -1,4 +1,4 @@
-package com.physiotherapy.s.clinic.securityJwt;
+package com.physiotherapy.s.clinic.security.jwt;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
