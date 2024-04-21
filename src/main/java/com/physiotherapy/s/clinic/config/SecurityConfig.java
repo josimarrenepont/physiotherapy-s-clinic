@@ -47,19 +47,19 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .httpBasic().disable()
-                .csrf(AbstractHttpConfigurer::disable)
+                .csrf().disable()
                 .sessionManagement(
                         session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(
+                .authorizeRequests(
                         authorizeHttpRequests -> authorizeHttpRequests
-                                .requestMatchers(
+                                .antMatchers(
                                         "/auth/signin",
                                         "/auth/refresh/**",
-                                        "/localhost:5173//**",
+                                        "/localhost:5173/**",
                                         "/v3/api-docs/**"
                                 ).permitAll()
-                                .requestMatchers("/api/**").authenticated()
-                                .requestMatchers("/users").denyAll()
+                                .antMatchers("/api/**").authenticated()
+                                .antMatchers("/users").denyAll()
                 )
                 .cors()
                 .and()
