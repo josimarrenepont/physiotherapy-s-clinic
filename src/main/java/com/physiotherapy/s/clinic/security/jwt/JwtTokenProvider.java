@@ -103,7 +103,7 @@ public class JwtTokenProvider {
             }
             return true;
         }catch (Exception e){
-            throw new InvalidJwtAuthenticationException("Expired or invalid TWT token");
+            throw new InvalidJwtAuthenticationException("Expired or invalid JWT token");
         }
     }
 }
