@@ -1,6 +1,6 @@
 package com.physiotherapy.s.clinic.config;
 
-import com.physiotherapy.s.clinic.security.jwt.JwtConfigurer;
+import com.physiotherapy.s.clinic.security.jwt.JwtTokenFilter;
 import com.physiotherapy.s.clinic.security.jwt.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +14,9 @@ import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,43 +32,43 @@ public class SecurityConfig {
     PasswordEncoder passwordEncoder() {
         Map<String, PasswordEncoder> encoders = new HashMap<>();
 
-        Pbkdf2PasswordEncoder pbkdf2Encoder = new Pbkdf2PasswordEncoder("", 8, 185000, Pbkdf2PasswordEncoder.SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA256);
+        Pbkdf2PasswordEncoder pbkdf2Encoder = new Pbkdf2PasswordEncoder
+                ("", 8, 185000, Pbkdf2PasswordEncoder.
+                        SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA256);
         encoders.put("pbkdf2", pbkdf2Encoder);
         DelegatingPasswordEncoder passwordEncoder = new DelegatingPasswordEncoder("pbkdf2", encoders);
         passwordEncoder.setDefaultPasswordEncoderForMatches(pbkdf2Encoder);
         return passwordEncoder;
     }
-
     @Bean
     AuthenticationManager authenticationManagerBean(
             AuthenticationConfiguration authenticationConfiguration)
             throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
-
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        JwtTokenFilter customFilter = new JwtTokenFilter(tokenProvider);
+
         return http
-                .httpBasic().disable()
-                .csrf().disable()
+                .httpBasic(basic -> basic.disable())
+                .csrf(csrf -> csrf.disable())
+                .addFilterBefore(customFilter, UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement(
                         session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeRequests(
                         authorizeHttpRequests -> authorizeHttpRequests
-                                .antMatchers(
-                                        "/auth/signin",
+                                .requestMatchers(
+                                        "/auth/signing",
                                         "/auth/refresh/**",
                                         "/localhost:5173/**",
                                         "/v3/api-docs/**"
                                 ).permitAll()
-                                .antMatchers("/api/**").authenticated()
-                                .antMatchers("/users").denyAll()
+                                .requestMatchers("/api/**").authenticated()
+                                .requestMatchers("/users").denyAll()
                 )
-                .cors()
-                .and()
-                .apply(new JwtConfigurer(tokenProvider))
-                .and()
+                .cors(cors -> {})
                 .build();
-
     }
+
 }
