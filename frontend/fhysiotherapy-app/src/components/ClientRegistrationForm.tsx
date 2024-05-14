@@ -15,7 +15,26 @@ const ClientRegistrationForm: React.FC = () => {
   const [email, setEmail] = useState('');
   const [profession, setProfession] = useState('');
   const [rgValid, setRgValid] = useState(true);
-  const[cpfValid, setCpfValid] = useState(true);
+  const [cpfValid, setCpfValid] = useState(true);
+
+  const formatCPF = (value: string) => {
+    // Remove qualquer caracter que não seja número
+    let formattedValue = value.replace(/\D/g, '');
+
+    // Insere os pontos e o traço no CPF
+    formattedValue = formattedValue.replace(/(\d{3})(\d)/, '$1.$2');
+    formattedValue = formattedValue.replace(/(\d{3})(\d)/, '$1.$2');
+    formattedValue = formattedValue.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+
+    return formattedValue;
+  };
+
+  const handleCPFChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    const formattedValue = formatCPF(value);
+    setCPF(formattedValue);
+    setCpfValid(true); // Reseta o estado de validade do CPF ao modificar o valor
+  };
 
   const handleClientSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -80,18 +99,14 @@ const ClientRegistrationForm: React.FC = () => {
           onChange={(e) => setName(e.target.value)}
         />
         <label htmlFor="cpf">CPF:</label>
-          <input
+        <input
           id="cpf"
           type="text"
           value={cpf}
-          onChange={(e) => {
-            setCPF(e.target.value);
-            setCpfValid(true); // Reseta o estado de validade do CPF ao modificar o valor
-      }}
-      className={!cpfValid ? 'invalid' : ''}
-      />
-    {!cpfValid && <p className="error-message">CPF inválido</p>} {/* Exibe a mensagem de erro */}      
-        
+          onChange={handleCPFChange}
+          className={!cpfValid ? 'invalid' : ''}
+        />
+        {!cpfValid && <p className="error-message">CPF inválido</p>}
         <label htmlFor="rg">RG:</label>
         <input
           id="rg"

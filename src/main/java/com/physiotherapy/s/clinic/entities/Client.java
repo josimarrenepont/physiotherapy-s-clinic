@@ -17,7 +17,7 @@ public class Client implements Serializable {
     private Long id;
     private Instant register;
     private String name;
-    private Integer cpf;
+    private String cpf;
     private Integer rg;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate dateOfBirth;
@@ -36,7 +36,7 @@ public class Client implements Serializable {
     private Set<Dependents> dependents = new HashSet<>();
     public Client(){}
 
-    public Client(Long id, String name, Integer cpf, Integer rg, LocalDate dateOfBirth,
+    public Client(Long id, String name, String cpf, Integer rg, LocalDate dateOfBirth,
                   Character sex, String maritalStatus, String email, String telephone,
                   String profession, Instant register) {
         this.id = id;
@@ -68,11 +68,11 @@ public class Client implements Serializable {
         this.name = name;
     }
 
-    public Integer getCpf() {
+    public String getCpf() {
         return cpf;
     }
 
-    public void setCpf(Integer cpf) {
+    public void setCpf(String cpf) {
         this.cpf = cpf;
     }
 

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { validateCPF } from './ValidateCpfRg'; // Importe a função de validação de CPF
+
 interface Client {
   id: string;
   name: string;
@@ -29,14 +30,28 @@ const DependentRegistrationForm: React.FC = () => {
     fetchClients();
   }, []);
 
+  const formatCPF = (value: string) => {
+    // Remove qualquer caracter que não seja número
+    let formattedCPF = value.replace(/\D/g, '');
+
+    // Adiciona pontos e traço conforme o formato do CPF (###.###.###-##)
+    formattedCPF = formattedCPF.replace(/(\d{3})(\d)/, '$1.$2');
+    formattedCPF = formattedCPF.replace(/(\d{3})(\d)/, '$1.$2');
+    formattedCPF = formattedCPF.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+
+    return formattedCPF;
+  };
+
   const handleDependentSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    // Verifica se o CPF é válido
-    if (!validateCPF(cpf)) {
-      setCpfValid(false);
-      return;
-    }
+    const cpfSemFormato = cpf.replace(/[.-]/g, '');
+
+  // Verifica se o CPF é válido
+  if (!validateCPF(cpfSemFormato)) {
+    setCpfValid(false);
+    return;
+  }
 
     try {
       const response = await axios.post(`http://localhost:8080/dependents/${clientId}`, {
@@ -91,14 +106,14 @@ const DependentRegistrationForm: React.FC = () => {
           <input
             id="cpf"
             type="text"
-            value={cpf}
+            value={formatCPF(cpf)}
             onChange={(e) => {
               setCpf(e.target.value);
               setCpfValid(true); // Reseta o estado de validade do CPF ao modificar o valor
             }}
-            className={!cpfValid ? 'invalid' : ''} // Adiciona uma classe para indicar que o CPF é inválido
+            className={!cpfValid ? 'invalid' : ''}
           />
-          {!cpfValid && <p className="error-message">CPF inválido</p>} {/* Exibe a mensagem de erro */}
+          {!cpfValid && <p className="error-message">CPF inválido</p>}
           <label htmlFor="clientId">Cliente:</label>
           <select value={clientId} onChange={(e) => setClientId(e.target.value)}>
             {dependents.map((client) => (
@@ -110,9 +125,11 @@ const DependentRegistrationForm: React.FC = () => {
           <button type="submit">Registrar Dependente</button>
         </form>
       </div>
-      <div className="image-container">
-        {}
-      </div>
+      {dependents.length > 0 && (
+        <div className="image-container">
+          {/* Renderize aqui o conteúdo da imagem */}
+        </div>
+      )}
       <ToastContainer />
     </div>
   );

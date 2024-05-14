@@ -9,7 +9,7 @@ import java.time.LocalDate;
 public class ClientDTO {
     private Long id;
     private String name;
-    private Integer cpf;
+    private String cpf;
     private Integer rg;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate dateOfBirth;
@@ -51,7 +51,7 @@ public class ClientDTO {
         this.name = name;
     }
 
-    public Integer getCpf() {
+    public String getCpf() {
         return cpf;
     }
 
