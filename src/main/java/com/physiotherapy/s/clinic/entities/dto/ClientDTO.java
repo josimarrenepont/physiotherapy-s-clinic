@@ -10,7 +10,7 @@ public class ClientDTO {
     private Long id;
     private String name;
     private String cpf;
-    private Integer rg;
+    private String rg;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate dateOfBirth;
     private Character sex;
@@ -55,7 +55,7 @@ public class ClientDTO {
         return cpf;
     }
 
-    public Integer getRg() {
+    public String getRg() {
         return rg;
     }
 

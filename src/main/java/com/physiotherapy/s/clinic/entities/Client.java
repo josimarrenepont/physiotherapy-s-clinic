@@ -18,7 +18,7 @@ public class Client implements Serializable {
     private Instant register;
     private String name;
     private String cpf;
-    private Integer rg;
+    private String rg;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate dateOfBirth;
     private Character sex;
@@ -34,9 +34,10 @@ public class Client implements Serializable {
 
     @OneToMany(mappedBy = "clients")
     private Set<Dependents> dependents = new HashSet<>();
+
     public Client(){}
 
-    public Client(Long id, String name, String cpf, Integer rg, LocalDate dateOfBirth,
+    public Client(Long id, String name, String cpf, String rg, LocalDate dateOfBirth,
                   Character sex, String maritalStatus, String email, String telephone,
                   String profession, Instant register) {
         this.id = id;
@@ -76,11 +77,11 @@ public class Client implements Serializable {
         this.cpf = cpf;
     }
 
-    public Integer getRg() {
+    public String getRg() {
         return rg;
     }
 
-    public void setRg(Integer rg) {
+    public void setRg(String rg) {
         this.rg = rg;
     }
 

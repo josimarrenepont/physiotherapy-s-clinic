@@ -44,6 +44,7 @@ public class ClientController {
         List<ClientDTO> dtoList = list.stream().map(ClientDTO::new).collect(Collectors.toList());
         return ResponseEntity.ok().body(dtoList);
     }
+
     @GetMapping(value = "/{id}")
     public ResponseEntity<Object> findById(@PathVariable Long id){
         Client obj = clientService.findById(id);

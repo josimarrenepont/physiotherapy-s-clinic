@@ -45,8 +45,8 @@ const validateCPF = (cpf: string): boolean => {
     }
   
     // Extrai os dígitos do RG
-    const digits = rg.substr(0, 9);
-    const dv = rg.substr(9, 1);
+    const digits = rg.substring(0, 9);
+    const dv = rg.substring(9, 1);
   
     // Calcula o dígito verificador
     let sum = 0;
