@@ -1,8 +1,8 @@
 package com.physiotherapy.s.clinic.config;
-
 import com.physiotherapy.s.clinic.security.jwt.JwtTokenFilter;
 import com.physiotherapy.s.clinic.security.jwt.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,8 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,6 +25,8 @@ public class SecurityConfig {
 
     @Autowired
     private JwtTokenProvider tokenProvider;
+    @Value("${security.allowed.urls}")
+    private String[] allowedUrls;
 
     @Bean
     PasswordEncoder passwordEncoder() {
@@ -61,7 +61,7 @@ public class SecurityConfig {
                                 .requestMatchers(
                                         "/auth/signing",
                                         "/auth/refresh/**",
-                                        "/localhost:5173/**",
+                                        "/localhost:5173/refresh/**",
                                         "/v3/api-docs/**"
                                 ).permitAll()
                                 .requestMatchers("/api/**").authenticated()
@@ -70,5 +70,4 @@ public class SecurityConfig {
                 .cors(cors -> {})
                 .build();
     }
-
 }

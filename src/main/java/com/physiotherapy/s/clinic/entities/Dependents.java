@@ -16,6 +16,7 @@ public class Dependents implements Serializable {
     private String telephone;
     private String kinship;
     private String cpf;
+
     @ManyToOne
     private Client clients;
 
@@ -51,6 +52,7 @@ public class Dependents implements Serializable {
     public String getCpf() {
         return cpf;
     }
+
     public void setCpf(String cpf) {
         this.cpf = cpf;
     }
@@ -58,9 +60,11 @@ public class Dependents implements Serializable {
     public String getTelephone() {
         return telephone;
     }
+
     public void setTelephone(String telephone) {
         this.telephone = telephone;
     }
+
     public String getKinship() {
         return kinship;
     }
@@ -76,6 +80,7 @@ public class Dependents implements Serializable {
     public void setPlans(Plans plans) {
         this.plans = plans;
     }
+
     public Client getClient() {
         return clients;
     }
