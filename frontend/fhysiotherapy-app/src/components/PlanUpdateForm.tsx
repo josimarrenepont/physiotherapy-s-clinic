@@ -35,9 +35,9 @@ const PlanUpdateForm: React.FC = () => {
       });
       console.log('Plano atualizado com sucesso');
       toast.success('Plano atualizado com sucesso!', { autoClose: 2000 });
-      setTimeout(() => {
-        window.location.href = '/'; // redireciona para a página inicial após 3 segundos
-      }, 3000);
+     //setTimeout(() => {
+       // window.location.href = '/'; // redireciona para a página inicial após 3 segundos
+      //}, 3000);
     } catch (error) {
       console.error('Erro ao atualizar plano:', error);
     }

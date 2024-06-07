@@ -54,7 +54,8 @@ const ClientRegistrationForm: React.FC = () => {
       }, {
         headers: {
           'Content-Type': 'application/json'
-        }
+        },
+        withCredentials: true // Adicione esta linha para incluir credenciais na requisição
       });
 
       console.log('Cliente registrado com sucesso:', response.data);
@@ -68,9 +69,9 @@ const ClientRegistrationForm: React.FC = () => {
       setMaritalStatus('');
       setEmail('');
       setProfession('');
-      setTimeout(() => {
-        window.location.href = '/';
-      }, 3000);
+      //setTimeout(() => {
+      // window.location.href = '/';
+      //  }, 3000);
     } catch (error) {
       console.error('Erro ao registrar cliente:', error);
     }

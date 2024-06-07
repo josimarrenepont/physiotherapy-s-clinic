@@ -68,9 +68,9 @@ const DependentRegistrationForm: React.FC = () => {
       setKinship('');
       setCpf('');
       setCpfValid(true); // Reseta o estado de validade do CPF
-      setTimeout(() => {
-        window.location.href = '/'; // redireciona para a página inicial após 3 segundos
-      }, 3000);
+      //setTimeout(() => {
+        //window.location.href = '/'; // redireciona para a página inicial após 3 segundos
+      //}, 3000);
     } catch (error) {
       console.error('Erro ao registrar dependente:', error);
     }

@@ -9,8 +9,7 @@ import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
-
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.physiotherapy.s.clinic")
 public class ClinicApplication {
 
 	public static void main(String[] args) {
@@ -25,7 +24,7 @@ public class ClinicApplication {
 		 DelegatingPasswordEncoder passwordEncoder = new DelegatingPasswordEncoder("pbkdf2", encoders);
 		 passwordEncoder.setDefaultPasswordEncoderForMatches(pbkdf2Encoder);
 
-		 String result1 = passwordEncoder.encode("admin123");
+		 String result1 = passwordEncoder.encode("$admin8553");
 		 String result2 = passwordEncoder.encode("admin234");
 		 System.out.println("My hash result1 " + result1);
 		 System.out.println("My hash result2 " + result2);

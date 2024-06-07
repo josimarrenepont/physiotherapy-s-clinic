@@ -62,6 +62,9 @@ public class SecurityConfig {
                                         "/auth/signing",
                                         "/auth/refresh/**",
                                         "/localhost:5173/refresh/**",
+                                        "/clients/**",
+                                        "/dependents/**",
+                                        "/plans/**",
                                         "/v3/api-docs/**"
                                 ).permitAll()
                                 .requestMatchers("/api/**").authenticated()

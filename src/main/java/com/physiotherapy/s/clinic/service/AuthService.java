@@ -23,23 +23,23 @@ public class AuthService {
     private UserRepository userRepository;
 
     public ResponseEntity signing(AccountCredentialsVO data){
-        try{
             var username = data.getUsername();
             var password = data.getPassword();
+        try{
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-
-            var user = userRepository.findByUsername(username);
-
-            var tokenResponse = new TokenVO();
-            if(user != null){
-                tokenResponse = tokenProvider.createAccessToken(username, user.getRoles());
-            }else{
-                throw new UsernameNotFoundException("username " + username + " not found!");
-            }
-            return ResponseEntity.ok(tokenResponse);
         }catch (Exception e){
             throw new BadCredentialsException("Invalid username/password suppliers");
         }
+
+        var user = userRepository.findByUsername(username);
+
+        var tokenResponse = new TokenVO();
+        if(user != null){
+            tokenResponse = tokenProvider.createAccessToken(username, user.getRoles());
+        }else{
+            throw new UsernameNotFoundException("username " + username + " not found!");
+        }
+        return ResponseEntity.ok(tokenResponse);
     }
     @SuppressWarnings("rawtypes")
     public ResponseEntity refreshToken(String username, String refreshToken) {
@@ -53,5 +53,4 @@ public class AuthService {
         }
         return ResponseEntity.ok(tokenResponse);
     }
-
 }

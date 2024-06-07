@@ -42,6 +42,18 @@ public class User implements UserDetails, Serializable {
 
     public User(){}
 
+    public User(Long id, String userName, String password, Boolean accountNonExpired,
+                Boolean accountNonLocked, Boolean credentialsNonExpired, Boolean enabled, List<Permission> permissions) {
+        this.id = id;
+        this.userName = userName;
+        this.password = password;
+        this.accountNonExpired = accountNonExpired;
+        this.accountNonLocked = accountNonLocked;
+        this.credentialsNonExpired = credentialsNonExpired;
+        this.enabled = enabled;
+        this.permissions = permissions;
+    }
+
     //METHOD NEEDS TO BE IMPLEMENTED BY CONVECTION
     public List<String> getRoles(){
         List<String> roles = new ArrayList<>();
