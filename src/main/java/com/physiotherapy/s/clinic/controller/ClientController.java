@@ -59,7 +59,7 @@ public class ClientController {
     }
     @GetMapping(value = "/findByName")
     public ResponseEntity<ClientDTO> findByName(@RequestParam String name){
-        Client client = clientService.findByName(name);
+        Client client = (Client) clientService.findByName(name);
         ClientDTO clientDTO = new ClientDTO(client);
         return ResponseEntity.ok().body(clientDTO);
     }

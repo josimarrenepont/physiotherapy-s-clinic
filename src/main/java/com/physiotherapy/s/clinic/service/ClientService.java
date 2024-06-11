@@ -78,6 +78,7 @@ public class ClientService {
     }
 
     private void updateData(Client entity, ClientDTO obj) {
+        entity.setId(obj.getId());
         entity.setName(obj.getName());
         entity.setEmail(obj.getEmail());
         entity.setMaritalStatus(obj.getMaritalStatus());
@@ -103,7 +104,6 @@ public class ClientService {
         dependentsRepository.save(dependents);
         clientRepository.save(client);
     }
-
 
     public Client findByName(String name) {
         try {
