@@ -4,7 +4,8 @@
 O plano foi elaborado visando registrar clientes e seus dependentes em uma clínica de fisioterapia, bem como gerenciar o controle interno dos pacientes.
 
 # Demonstração da Aplicação
-https://github.com/josimarrenepont/physiotherapy-s-clinic/assets/111367304/c37f5022-0725-443d-bad0-131eaf577d95
+
+https://github.com/josimarrenepont/physiotherapy-s-clinic/assets/111367304/4e32c3be-d056-4bc5-8e72-16ac8e7db002
 
 # Modelo Conceitual
 ![Fhysiotherapy](https://github.com/josimarrenepont/physiotherapy-s-clinic/assets/111367304/c88e5f53-cb94-4261-aad8-27c700a7ef47)
