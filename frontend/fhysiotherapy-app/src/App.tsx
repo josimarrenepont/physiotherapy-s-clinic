@@ -2,6 +2,8 @@
 
 import React, { useState } from 'react';
 import { Link, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import './assets/fisioplat.jpg';
+import './assets/fisioplatlogo.jpg';
 import ClientRegistrationForm from './components/ClientRegistrationForm';
 import ClientTotalPrice from './components/ClientTotalPrice';
 import ClientUpdateForm from './components/ClientUpdateForm';
@@ -14,7 +16,6 @@ import './components/ValidateCpfRg';
 import './styles/buttons.css';
 import './styles/clientRegistrationForm.css';
 import './styles/totalPrice.css';
-
 const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 

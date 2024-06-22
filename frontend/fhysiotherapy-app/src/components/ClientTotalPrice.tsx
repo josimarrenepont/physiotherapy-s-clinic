@@ -22,6 +22,16 @@ const PlanTotalPrice: React.FC = () => {
     const [totalPrice, setTotalPrice] = useState<number | null>(null);
     const [clientInfo, setClientInfo] = useState<Client | null>(null);
 
+    {clientInfo && (
+        <div>
+            <h3>Planes for {clientInfo.name}:</h3>
+            <ul>
+                {plans.map((plan) => (
+                    <li key={plan.id}>{plan.name}</li>
+                ))}
+            </ul>
+        </div>
+    )}
     const handleGetClient = async () => {
         try {
             const response = await axios.get(`http://localhost:8080/clients?name=${clientName}`);

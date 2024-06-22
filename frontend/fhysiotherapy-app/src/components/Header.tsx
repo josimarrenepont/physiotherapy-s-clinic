@@ -1,10 +1,13 @@
+// Header.tsx
+import React from 'react';
 import { Link } from 'react-router-dom';
+import logo from '../assets/fisioplatlogo.jpg'; // Importe a imagem
 
-const Header = () => {
+const Header: React.FC = () => {
   return (
-    <header className="header-container"> {/* Container do cabeçalho */}
-      <Link to="/" className="logo-link"> {/* Link para a homepage */}
-        <img src="src/assets/fisioplat_logo.jpg" alt="Logo" className="logo-image" /> {/* Imagem da logo */}
+    <header className="header-container">
+      <Link to="/">
+        <img src={logo} alt="Fisioplat Logo" className="logo" />
       </Link>
     </header>
   );

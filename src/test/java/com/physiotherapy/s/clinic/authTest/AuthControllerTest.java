@@ -1,3 +1,4 @@
+// AuthControllerTest.java
 package com.physiotherapy.s.clinic.authTest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,7 +23,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 public class AuthControllerTest {
@@ -51,14 +52,16 @@ public class AuthControllerTest {
 
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
+
     @Test
-    @WithMockUser // Adiciona um usuário mock para desabilitar a autenticação nos testes
+    @WithMockUser
     public void testSigning_withValidCredentials_shouldReturnToken() throws Exception {
         mockMvc.perform(post("/auth/signing")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(accountCredentialsVO)))
                 .andExpect(status().isOk());
     }
+
     @Test
     public void testSigning_withInvalidCredentials_shouldReturnForbidden() throws Exception {
         AccountCredentialsVO invalidCredentials = new AccountCredentialsVO("invalidUser", "invalidPassword");
@@ -71,19 +74,21 @@ public class AuthControllerTest {
                         .content(objectMapper.writeValueAsString(invalidCredentials)))
                 .andExpect(status().isForbidden());
     }
+
     @Test
     public void testRefreshToken_withValidToken_shouldReturnNewToken() throws Exception {
         mockMvc.perform(put("/auth/refresh/user")
-                .header(HttpHeaders.AUTHORIZATION, "Bearer valid.refresh.token"))
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer valid.refresh.token"))
                 .andExpect(status().isOk());
     }
+
     @Test
     public void testRefreshToken_withInvalidToken_shouldReturnForbidden() throws Exception {
         String invalidToken = "Bearer invalidToken";
         String username = "invalidUser";
 
-        Mockito.when(authService.refreshToken(anyString(), anyString())).
-                thenThrow(new InvalidJwtAuthenticationException("Invalid Credentials"));
+        Mockito.when(authService.refreshToken(anyString(), anyString()))
+                .thenThrow(new InvalidJwtAuthenticationException("Invalid Credentials"));
 
         mockMvc.perform(put("/auth/refresh/user")
                         .header("Authorization", invalidToken)

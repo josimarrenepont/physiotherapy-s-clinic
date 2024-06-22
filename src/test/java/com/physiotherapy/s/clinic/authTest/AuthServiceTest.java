@@ -1,6 +1,6 @@
+// AuthServiceTest.java
 package com.physiotherapy.s.clinic.authTest;
 
-import com.physiotherapy.s.clinic.controller.AuthController;
 import com.physiotherapy.s.clinic.entities.User;
 import com.physiotherapy.s.clinic.repository.UserRepository;
 import com.physiotherapy.s.clinic.security.AccountCredentialsVO;
@@ -27,77 +27,81 @@ import static org.mockito.Mockito.*;
 @SpringBootTest
 public class AuthServiceTest {
 
-  @Mock
-  private JwtTokenProvider tokenProvider;
-  @Mock
-  private UserRepository userRepository;
-  @Mock
-  private AuthenticationManager authenticationManager;
+    @Mock
+    private JwtTokenProvider tokenProvider;
 
-  @InjectMocks
-  private AuthService authService;
+    @Mock
+    private UserRepository userRepository;
 
-  private AccountCredentialsVO validCredentials;
-  private AccountCredentialsVO invalidCredentials;
-  private String username;
-  private String password;
-  private String refreshToken;
+    @Mock
+    private AuthenticationManager authenticationManager;
 
-  @BeforeEach
-  public void setUp(){
-      username = "user";
-      password = "password";
-      validCredentials = new AccountCredentialsVO(username, password);
-      invalidCredentials = new AccountCredentialsVO("invalidUser", "invalidPassword");
-      refreshToken = "valid.refresh.token";
-  }
-  @Test
-  public void testSigning_withValidCredentials_shouldReturnToken(){
-      User mockUser = new User(1L, username, password, true, true,
-              true, true, Collections.emptyList());
+    @InjectMocks
+    private AuthService authService;
 
-      when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class))).thenReturn(null);
-      when(userRepository.findByUsername(username)).thenReturn(mockUser);
-      when(tokenProvider.createAccessToken(username, mockUser.getRoles())).thenReturn(new TokenVO());
+    private AccountCredentialsVO validCredentials;
+    private AccountCredentialsVO invalidCredentials;
+    private String username;
+    private String password;
+    private String refreshToken;
 
-      ResponseEntity<?> response = authService.signing(validCredentials);
+    @BeforeEach
+    public void setUp() {
+        username = "user";
+        password = "password";
+        validCredentials = new AccountCredentialsVO(username, password);
+        invalidCredentials = new AccountCredentialsVO("invalidUser", "invalidPassword");
+        refreshToken = "valid.refresh.token";
+    }
 
-      assertNotNull(invalidCredentials);
-      assertEquals(200, response.getStatusCode().value());
-  }
-  @Test
-  public void testSigning_withInvalidCredentials_shouldThrowBadCredentialsException(){
-      doThrow(new BadCredentialsException("invlaid username/password suppliers"))
-              .when(authenticationManager).authenticate(any(UsernamePasswordAuthenticationToken.class));
+    @Test
+    public void testSigning_withValidCredentials_shouldReturnToken() {
+        User mockUser = new User(1L, username, password, true, true, true, true, Collections.emptyList());
 
-      assertThrows(BadCredentialsException.class, () -> authService.signing(invalidCredentials));
-  }
-  @Test
-  public void testSigning_withUnknownUsername_shouldThrowUsernameNotFoundException(){
-      when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class)))
-              .thenReturn(null);
-      when(userRepository.findByUsername(anyString())).thenReturn(null);
+        when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class))).thenReturn(null);
+        when(userRepository.findByUsername(username)).thenReturn(mockUser);
+        when(tokenProvider.createAccessToken(username, mockUser.getRoles())).thenReturn(new TokenVO());
 
-      assertThrows(UsernameNotFoundException.class, () -> authService.signing(validCredentials));
-  }
-  @Test
-  public void testRefreshToken_withValidUsernameAndToken_shouldReturnNewToken(){
-      User mockUser = new User(1L, username, password, true,
-              true, true, true, Collections.emptyList());
+        ResponseEntity<?> response = authService.signing(validCredentials);
 
-      when(userRepository.findByUsername(username)).thenReturn(mockUser);
-      when(tokenProvider.refreshToken(refreshToken)).thenReturn(new TokenVO());
+        assertNotNull(response);
+        assertEquals(200, response.getStatusCode().value());
+    }
 
-      ResponseEntity<?> response = authService.refreshToken(username, refreshToken);
+    @Test
+    public void testSigning_withInvalidCredentials_shouldThrowBadCredentialsException() {
+        doThrow(new BadCredentialsException("invalid username/password supplied"))
+                .when(authenticationManager).authenticate(any(UsernamePasswordAuthenticationToken.class));
 
-      assertNotNull(response);
-      assertEquals(200, response.getStatusCode().value());
-  }
-  @Test
-  public void testRefreshToken_withUnknownUsername_shouldThrownUsernameNotFoundException(){
-       when(userRepository.findByUsername(username)).thenReturn(null);
+        assertThrows(BadCredentialsException.class, () -> authService.signing(invalidCredentials));
+    }
 
-       assertThrows(UsernameNotFoundException.class, () -> authService.refreshToken(username, refreshToken));
-  }
+    @Test
+    public void testSigning_withUnknownUsername_shouldThrowUsernameNotFoundException() {
+        when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class)))
+                .thenReturn(null);
+        when(userRepository.findByUsername(anyString())).thenReturn(null);
 
+        assertThrows(UsernameNotFoundException.class, () -> authService.signing(validCredentials));
+    }
+
+    @Test
+    public void testRefreshToken_withValidUsernameAndToken_shouldReturnNewToken() {
+        User mockUser = new User(1L, username, password, true, true, true, true, Collections.emptyList());
+
+        when(userRepository.findByUsername(username)).thenReturn(mockUser);
+        when(tokenProvider.refreshToken(refreshToken)).thenReturn(new TokenVO());
+
+        ResponseEntity<?> response = authService.refreshToken(username, refreshToken);
+
+        assertNotNull(response);
+        assertEquals(200, response.getStatusCode().value());
+    }
+
+    @Test
+    public void testRefreshToken_withUnknownUsername_shouldThrowUsernameNotFoundException() {
+        when(userRepository.findByUsername(username)).thenReturn(null);
+
+        assertThrows(UsernameNotFoundException.class, () -> authService.refreshToken(username, refreshToken));
+    }
 }

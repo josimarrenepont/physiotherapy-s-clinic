@@ -2,6 +2,7 @@ package com.physiotherapy.s.clinic;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
@@ -9,7 +10,8 @@ import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
-@SpringBootApplication(scanBasePackages = "com.physiotherapy.s.clinic")
+@SpringBootApplication
+@EnableJpaRepositories(basePackages = "com.physiotherapy.s.clinic.repository")
 public class ClinicApplication {
 
 	public static void main(String[] args) {
