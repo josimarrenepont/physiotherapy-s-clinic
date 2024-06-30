@@ -42,7 +42,7 @@ public class DependentsService {
         }catch (EmptyResultDataAccessException e) {
             throw new ResourceNotFoundExceptions(id);
         }
-         catch (DataIntegrityViolationException e){
+        catch (DataIntegrityViolationException e){
             throw new DatabaseExceptions(e.getMessage());
         }
     }
@@ -80,5 +80,8 @@ public class DependentsService {
         clientRepository.save(client);
 
         return dependentsRepository.save(dependents);
+    }
+    public List<Dependents> findByClientsId(Long clientsId){
+        return dependentsRepository.findByClientsId(clientsId);
     }
 }

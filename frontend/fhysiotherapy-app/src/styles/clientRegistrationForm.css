@@ -82,7 +82,7 @@ button[type="submit"]:hover {
 }
 
 body {
-  background-image: url('/src/assets/fisioplat.jpg'); /* Substitua pelo caminho correto da sua imagem */
+  background-image: url('/src/assets/.jpg'); /* Substitua pelo caminho correto da sua imagem */
   background-size: 325px; /* Para ajustar a imagem ao tamanho da tela */
   background-repeat: repeat-y; /* Para evitar a repetição da imagem */
   

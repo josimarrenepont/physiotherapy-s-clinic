@@ -5,6 +5,7 @@ import com.physiotherapy.s.clinic.entities.Client;
 import com.physiotherapy.s.clinic.entities.Dependents;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class ClientDTO {
     private Long id;
@@ -18,7 +19,7 @@ public class ClientDTO {
     private String email;
     private String telephone;
     private String profession;
-    private Dependents dependents;
+    private List<DependentsDTO> dependentsDTOS;
 
     public ClientDTO(){}
 
@@ -33,6 +34,13 @@ public class ClientDTO {
         this.email = client.getEmail();
         this.telephone = client.getTelephone();
         this.profession = client.getProfession();
+    }
+
+    public List<DependentsDTO> getDependents() {
+        return dependentsDTOS;
+    }
+    public void setDependents(List<DependentsDTO> dependentsDTOS){
+        this.dependentsDTOS = dependentsDTOS;
     }
 
     public Long getId() {
@@ -106,9 +114,4 @@ public class ClientDTO {
     public void setProfession(String profession) {
         this.profession = profession;
     }
-
-    public void setDependents(Dependents dependents) {
-        this.dependents = dependents;
-    }
-
 }

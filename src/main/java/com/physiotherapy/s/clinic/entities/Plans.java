@@ -64,7 +64,7 @@ public class Plans implements Serializable {
     public void setClient(Set<Client> client) {
         this.clients = client;
     }
-   public Double getTotalPriceWithDependents(Client client) {
+    public Double getTotalPriceWithDependents(Client client) {
         int numberOfDependents = client.getDependents().size();
         if (numberOfDependents == 0) {
             return this.price;

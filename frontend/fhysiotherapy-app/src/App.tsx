@@ -48,7 +48,7 @@ const App: React.FC = () => {
                 </li>
                 <li>
                   <button className="nav-button">
-                    <Link to="/client-total-price" className="nav-link">Valor Total do Plano</Link>
+                    <Link to="/client-total-price" className="nav-link">Pesquisar Cliente</Link>
                   </button>
                 </li>
                 <li>

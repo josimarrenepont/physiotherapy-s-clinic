@@ -1,9 +1,11 @@
 package com.physiotherapy.s.clinic.controller;
 
+import com.physiotherapy.s.clinic.entities.Client;
 import com.physiotherapy.s.clinic.entities.Dependents;
 import com.physiotherapy.s.clinic.entities.dto.DependentsDTO;
 import com.physiotherapy.s.clinic.repository.ClientRepository;
 import com.physiotherapy.s.clinic.repository.DependentsRepository;
+import com.physiotherapy.s.clinic.service.ClientService;
 import com.physiotherapy.s.clinic.service.DependentsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +26,8 @@ public class DependentsController {
     private ClientRepository clientRepository;
     @Autowired
     private DependentsRepository dependentsRepository;
-
+    @Autowired
+    private ClientService clientService;
     @GetMapping
     public ResponseEntity<List<DependentsDTO>> findAll(){
         List<Dependents> list = dependentsService.findAll();

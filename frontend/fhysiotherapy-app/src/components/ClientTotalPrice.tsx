@@ -6,7 +6,6 @@ interface Client {
     id: number;
     email: string;
     telephone: string;
-    // Add other properties as needed
 }
 
 interface Plan {
@@ -14,34 +13,37 @@ interface Plan {
     name: string;
 }
 
+interface Dependent {
+    id: number;
+    name: string;
+    kinship: string;
+}
+
 const PlanTotalPrice: React.FC = () => {
     const [clientName, setClientName] = useState('');
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [plans, setPlans] = useState<Plan[]>([]);
+    const [dependents, setDependents] = useState<Dependent[]>([]);
     const [selectedPlanId, setSelectedPlanId] = useState<number | null>(null);
     const [totalPrice, setTotalPrice] = useState<number | null>(null);
     const [clientInfo, setClientInfo] = useState<Client | null>(null);
 
-    {clientInfo && (
-        <div>
-            <h3>Planes for {clientInfo.name}:</h3>
-            <ul>
-                {plans.map((plan) => (
-                    <li key={plan.id}>{plan.name}</li>
-                ))}
-            </ul>
-        </div>
-    )}
     const handleGetClient = async () => {
         try {
-            const response = await axios.get(`http://localhost:8080/clients?name=${clientName}`);
-            const foundClient = response.data.find((c: Client) => c.name === clientName);
-
+            const response = await axios.get(`http://localhost:8080/clients/findByName?name=${clientName}`);
+            const foundClient = response.data;
+    
             if (foundClient) {
                 setClientInfo(foundClient);
-
+                setSelectedPlanId(null); // Clear the selected plan
+                setTotalPrice(null); // Clear the total price
+    
+                // Fetching dependents
+                const responseDependents = await axios.get(`http://localhost:8080/clients/${foundClient.id}/dependents`);
+                setDependents(responseDependents.data);
+    
+                // Hypothetical fetching of plans related to the found client
                 const responsePlans = await axios.get(`http://localhost:8080/clients/${foundClient.id}/plans`);
-                setPlans(responsePlans.data);
+                setPlans(responsePlans.data); // Update the plans state
             } else {
                 console.error('Cliente não encontrado.');
             }
@@ -50,11 +52,13 @@ const PlanTotalPrice: React.FC = () => {
         }
     };
 
+
     const handleGetRandomPlan = async () => {
         try {
             const response = await axios.get('http://localhost:8080/plans/random');
             const planData = response.data;
             setSelectedPlanId(planData.id);
+            console.log('Plano selecionado:', planData);
         } catch (error) {
             console.error('Erro ao buscar plano:', error);
         }
@@ -65,13 +69,15 @@ const PlanTotalPrice: React.FC = () => {
             if (clientInfo && selectedPlanId !== null) {
                 const responseTotalPrice = await axios.get(`http://localhost:8080/plans/${selectedPlanId}/totalPrice?clientId=${clientInfo.id}`);
                 setTotalPrice(responseTotalPrice.data);
+                console.log('Preço total do plano:', responseTotalPrice.data);
             } else {
                 console.error('Cliente ou plano não selecionado.');
             }
         } catch (error) {
             console.error('Erro ao obter o preço total:', error);
-        }
+        } 
     };
+    
 
     return (
         <div>
@@ -84,9 +90,9 @@ const PlanTotalPrice: React.FC = () => {
             />
 
             <button onClick={handleGetRandomPlan}>Buscar Plano</button>
-
             <button onClick={handleGetTotalPrice}>Preço Total</button>
-            {clientInfo && totalPrice !== null && (
+
+            {clientInfo && (
                 <div>
                     <h3>Informações do Cliente:</h3>
                     <table className="client-table">
@@ -105,8 +111,32 @@ const PlanTotalPrice: React.FC = () => {
                                 <td>{clientInfo.id}</td>
                                 <td>{clientInfo.email}</td>
                                 <td>{clientInfo.telephone}</td>
-                                <td>{"R$ " + totalPrice}</td>
+                                <td>{'R$ ' + totalPrice}</td>
                             </tr>
+                        </tbody>
+                    </table>
+                    <ul>
+                        {plans.map((plan) => (
+                            <li key={plan.id}>{plan.name}</li>
+                        ))}
+                    </ul>
+                    <h3>Dependentes:</h3>
+                    <table className="dependents-table">
+                        <thead>
+                            <tr>
+                                <th>ID do Dependente</th>
+                                <th>Nome do Dependente</th>
+                                <th>Parentesco</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {dependents.map((dependent) => (
+                                <tr key={dependent.id}>
+                                    <td>{dependent.id}</td>
+                                    <td>{dependent.name}</td>
+                                    <td>{dependent.kinship}</td>
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </div>

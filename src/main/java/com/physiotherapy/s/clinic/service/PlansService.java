@@ -57,15 +57,15 @@ public class PlansService {
         return plansRepository.save(obj);
     }
 
-public Double getTotalPriceWithDependents(Long plansId, Long clientId) {
-    Client client = clientRepository.findById(clientId)
-            .orElseThrow(() -> new ResourceNotFoundExceptions("Client not found with id: " + clientId));
+    public Double getTotalPriceWithDependents(Long plansId, Long clientId) {
+        Client client = clientRepository.findById(clientId)
+                .orElseThrow(() -> new ResourceNotFoundExceptions("Client not found with id: " + clientId));
 
-    Plans plans = plansRepository.findById(plansId)
-            .orElseThrow(() -> new ResourceNotFoundExceptions("Plans not found with id: " + plansId));
+        Plans plans = plansRepository.findById(plansId)
+                .orElseThrow(() -> new ResourceNotFoundExceptions("Plans not found with id: " + plansId));
 
-    return plans.getTotalPriceWithDependents(client);
-}
+        return plans.getTotalPriceWithDependents(client);
+    }
 
     public Plans getRandomPlan() {
         List<Plans> allPlans = plansRepository.findAll();

@@ -7,6 +7,7 @@ import com.physiotherapy.s.clinic.entities.dto.DependentsDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
 import java.util.Set;
 
 public interface DependentsRepository extends JpaRepository<Dependents, Long> {
@@ -18,4 +19,6 @@ public interface DependentsRepository extends JpaRepository<Dependents, Long> {
 
     @Query("SELECT obj FROM Client obj JOIN FETCH obj.dependents")
     Set<Client> searchAll();
+
+    List<Dependents> findByClientsId(Long clientsId);
 }
