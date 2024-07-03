@@ -41,9 +41,9 @@ const PlanTotalPrice: React.FC = () => {
                 const responseDependents = await axios.get(`http://localhost:8080/clients/${foundClient.id}/dependents`);
                 setDependents(responseDependents.data);
     
-                // Hypothetical fetching of plans related to the found client
+                // Fetching plans related to the found client
                 const responsePlans = await axios.get(`http://localhost:8080/clients/${foundClient.id}/plans`);
-                setPlans(responsePlans.data); // Update the plans state
+                setPlans(responsePlans.data);
             } else {
                 console.error('Cliente não encontrado.');
             }
@@ -51,7 +51,6 @@ const PlanTotalPrice: React.FC = () => {
             console.error('Erro ao obter o cliente:', error);
         }
     };
-
 
     const handleGetRandomPlan = async () => {
         try {
@@ -129,16 +128,17 @@ const PlanTotalPrice: React.FC = () => {
                                 <th>Parentesco</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            {dependents.map((dependent) => (
-                                <tr key={dependent.id}>
-                                    <td>{dependent.id}</td>
-                                    <td>{dependent.name}</td>
-                                    <td>{dependent.kinship}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                        {dependents.length > 0 && (
+                            <tbody>
+                                {dependents.map((dependent) => (
+                                    <tr key={dependent.id}>
+                                        <td>{dependent.id}</td>
+                                        <td>{dependent.name}</td>
+                                        <td>{dependent.kinship}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        )}</table>
                 </div>
             )}
         </div>

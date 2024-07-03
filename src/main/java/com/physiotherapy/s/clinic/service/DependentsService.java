@@ -15,6 +15,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -82,6 +83,10 @@ public class DependentsService {
         return dependentsRepository.save(dependents);
     }
     public List<Dependents> findByClientsId(Long clientsId){
-        return dependentsRepository.findByClientsId(clientsId);
+        List<Dependents> dependentsList = dependentsRepository.findByClientsId(clientsId);
+        if(dependentsList == null || dependentsList.isEmpty()){
+            return new ArrayList<>();
+        }
+        return dependentsList;
     }
 }

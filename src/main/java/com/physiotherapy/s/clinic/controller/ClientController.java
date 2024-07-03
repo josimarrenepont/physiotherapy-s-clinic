@@ -2,6 +2,7 @@ package com.physiotherapy.s.clinic.controller;
 
 import com.physiotherapy.s.clinic.entities.Client;
 import com.physiotherapy.s.clinic.entities.Dependents;
+import com.physiotherapy.s.clinic.entities.Plans;
 import com.physiotherapy.s.clinic.entities.dto.ClientDTO;
 import com.physiotherapy.s.clinic.entities.dto.DependentsDTO;
 import com.physiotherapy.s.clinic.repository.ClientRepository;
@@ -77,7 +78,7 @@ public class ClientController {
         return ResponseEntity.ok().body(clientDTO);
     }
     @GetMapping("/{id}/dependents")
-    public ResponseEntity<List<DependentsDTO>> getDependentsByCLientId(@PathVariable Long id){
+    public ResponseEntity<List<DependentsDTO>> getDependentsByClientId(@PathVariable Long id){
         List<Dependents> dependentsList = dependentsService.findByClientsId(id);
         if(dependentsList.isEmpty()){
             return ResponseEntity.noContent().build();
@@ -85,5 +86,10 @@ public class ClientController {
         List<DependentsDTO> dependentsDTOList = dependentsList.stream()
                 .map(DependentsDTO::new).collect(Collectors.toList());
         return ResponseEntity.ok().body(dependentsDTOList);
+    }
+    @GetMapping("/{id}/plans")
+    public ResponseEntity<List<Plans>> getPlansByClientsId(@PathVariable Long id){
+        List<Plans> plansList = plansService.findByClientsId(id);
+        return ResponseEntity.ok().body(plansList);
     }
 }
