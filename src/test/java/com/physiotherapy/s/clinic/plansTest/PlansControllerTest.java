@@ -38,7 +38,7 @@ public class PlansControllerTest {
         when(plansService.getTotalPriceWithDependents(anyLong(), anyLong())).thenReturn( 100.0);
 
         ResultActions result = mockMvc.perform(get("/plans/1/totalPrice")
-                        .param("clientId", "1")
+                        .param("clientsId", "1")
                         .contentType(MediaType.APPLICATION_JSON));
 
                result.andExpect(status().isOk())

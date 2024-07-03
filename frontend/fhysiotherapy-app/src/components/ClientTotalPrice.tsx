@@ -66,7 +66,7 @@ const PlanTotalPrice: React.FC = () => {
     const handleGetTotalPrice = async () => {
         try {
             if (clientInfo && selectedPlanId !== null) {
-                const responseTotalPrice = await axios.get(`http://localhost:8080/plans/${selectedPlanId}/totalPrice?clientId=${clientInfo.id}`);
+                const responseTotalPrice = await axios.get(`http://localhost:8080/plans/${selectedPlanId}/totalPrice?clientsId=${clientInfo.id}`);
                 setTotalPrice(responseTotalPrice.data);
                 console.log('Preço total do plano:', responseTotalPrice.data);
             } else {

@@ -48,8 +48,8 @@ public class PlansController {
     }
 
     @GetMapping(value = "/{id}/totalPrice")
-    public ResponseEntity<Double> getTotalPriceWithDependents(@PathVariable Long id, @RequestParam Long clientId) {
-        Double totalPrice = plansService.getTotalPriceWithDependents(id, clientId);
+    public ResponseEntity<Double> getTotalPriceWithDependents(@PathVariable Long id, @RequestParam Long clientsId) {
+        Double totalPrice = plansService.getTotalPriceWithDependents(id, clientsId);
         return ResponseEntity.ok().body(totalPrice);
     }
 
@@ -58,5 +58,4 @@ public class PlansController {
         Plans obj = plansService.getRandomPlan();
         return ResponseEntity.ok().body(obj);
     }
-
 }
