@@ -78,14 +78,17 @@ public class ClientController {
         return ResponseEntity.ok().body(clientDTO);
     }
     @GetMapping("/{id}/dependents")
-    public ResponseEntity<List<DependentsDTO>> getDependentsByClientId(@PathVariable Long id){
+    public ResponseEntity<List<DependentsDTO>> getDependentsByClientId(@PathVariable Long id) {
         List<Dependents> dependentsList = dependentsService.findByClientsId(id);
-        if(dependentsList.isEmpty()){
-            return ResponseEntity.noContent().build();
+        ResponseEntity<List<DependentsDTO>> responseEntity;
+        if (dependentsList.isEmpty()) {
+            responseEntity = ResponseEntity.noContent().build();
+        } else {
+            List<DependentsDTO> dependentsDTOList = dependentsList.stream()
+                    .map(DependentsDTO::new).collect(Collectors.toList());
+            responseEntity = ResponseEntity.ok().body(dependentsDTOList);
         }
-        List<DependentsDTO> dependentsDTOList = dependentsList.stream()
-                .map(DependentsDTO::new).collect(Collectors.toList());
-        return ResponseEntity.ok().body(dependentsDTOList);
+        return responseEntity;
     }
     @GetMapping("/{id}/plans")
     public ResponseEntity<List<Plans>> getPlansByClientsId(@PathVariable Long id){

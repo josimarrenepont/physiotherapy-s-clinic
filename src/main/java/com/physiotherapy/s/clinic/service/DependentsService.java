@@ -77,7 +77,7 @@ public class DependentsService {
         dependents.setKinship(obj.getKinship());
         dependents.setTelephone(obj.getTelephone());
         client.setId(client.getId());
-        dependents.setId(client.getId());
+
         clientRepository.save(client);
 
         return dependentsRepository.save(dependents);
