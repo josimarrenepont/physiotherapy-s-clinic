@@ -30,12 +30,12 @@ jobs:
 
 
     - name: Build Backend JAR
-      working-directory: ./physiotherapy-s-clinic
       run: mvn clean package
+      working-directory: ./clinic
 
     - name: Docker Compose Build
-      working-directory: ./physiotherapy-s-clinic
       run: docker-compose build
+      working-directory: ./clinic/target
       
     - name: Push to Docker Hub Container Registry
       run: |
