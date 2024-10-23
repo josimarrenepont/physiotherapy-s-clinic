@@ -35,7 +35,7 @@ jobs:
 
     - name: Docker Compose Build
       run: docker-compose build
-      working-directory: ./clinic/physiotherapy-s-clinic/target
+      working-directory: ./target
       
     - name: Push to Docker Hub Container Registry
       run: |
