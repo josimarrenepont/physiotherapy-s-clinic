@@ -28,7 +28,7 @@ jobs:
         cache: maven
 
     - name: Build Application JAR
-      working-directory: ./clinic-physiotherapys-clinic
+      working-directory: ./clinic
       run: mvn clean package
 
     - name: Docker Compose Build
