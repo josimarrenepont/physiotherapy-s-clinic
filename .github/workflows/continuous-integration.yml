@@ -28,21 +28,19 @@ jobs:
         distribution: 'adopt'
         cache: maven
 
-
     - name: Build Backend JAR
+      working-directory: ./clinic/physiotherapy-s-clinic
       run: mvn clean package
-      working-directory: ./clinic
 
     - name: Docker Compose Build
       run: docker-compose build
-      working-directory: ./target
-      
+
     - name: Push to Docker Hub Container Registry
       run: |
         docker tag ${{ secrets.DOCKER_USERNAME }}/physiotherapy-s-clinic:latest ${{ secrets.DOCKER_USERNAME }}/physiotherapy-s-clinic:${{ github.run_id }}
         docker push ${{ secrets.DOCKER_USERNAME }}/physiotherapy-s-clinic:${{ github.run_id }}
         docker push ${{ secrets.DOCKER_USERNAME }}/physiotherapy-s-clinic:latest
-    
+
     - name: Build Frontend
       working-directory: ./fhysiotherapy-app
       run: |
