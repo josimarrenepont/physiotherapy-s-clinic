@@ -1,0 +1,49 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:14
+    restart: always
+    shm_size: 128mb
+    environment:
+      TZ: America/Sao_Paulo
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 07111519
+      POSTGRES_DB: physiotherapys_clinic
+    ports:
+      - "5432:5432"
+    networks:
+      - clinic-network
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  physiotherapys-clinic:
+    build: C:/temp/ws-intelij/clinic
+    working_dir: /app-clinic
+    environment:
+      TZ: America/Sao_Paulo
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/physiotherapys_clinic
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 07111519
+    ports:
+      - "8080:8080"
+    networks:
+      - clinic-network
+    command: mvn spring-boot:run
+    depends_on:
+      - db
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "8081:8080"
+    networks:
+      - clinic-network
+
+networks:
+  clinic-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
