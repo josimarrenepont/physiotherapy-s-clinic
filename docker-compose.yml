@@ -18,7 +18,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
 
   physiotherapys-clinic:
-    build: ./physiotherapy-s-clinic  # Caminho relativo para o backend
+    build: C:/temp/ws-intelij/clinic
     working_dir: /app-clinic
     environment:
       TZ: America/Sao_Paulo
@@ -29,7 +29,7 @@ services:
       - "8080:8080"
     networks:
       - clinic-network
-    command: mvn spring-boot:run  # Apenas roda o Spring Boot (o build já foi feito no CI)
+    command: mvn spring-boot:run
     depends_on:
       - db
 
