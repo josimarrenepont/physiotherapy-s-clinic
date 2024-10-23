@@ -28,7 +28,7 @@ jobs:
         cache: maven
 
     - name: Build Application JAR
-      working-directory: ./C:\temp\ws-intelij\clinic
+      working-directory: ./C:/temp/ws-intelij/clinic
       run: mvn clean package
 
     - name: Docker Compose Build
