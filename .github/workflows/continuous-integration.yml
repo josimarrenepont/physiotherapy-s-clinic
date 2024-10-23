@@ -31,7 +31,7 @@ jobs:
 
     - name: Build Backend JAR
       run: mvn clean package
-      working-directory: ./clinic
+      working-directory: ./physiotherapy-s-clinic
 
     - name: Docker Compose Build
       run: docker-compose build
