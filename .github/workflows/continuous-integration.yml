@@ -28,11 +28,11 @@ jobs:
         cache: maven
 
     - name: Build Application JAR
-      working-directory: ./temp/ws-intelij/clinic
+      working-directory: ./clinic
       run: mvn clean package
 
     - name: Docker Compose Build
-      working-directory: ./temp/ws-intelij/clinic
+      working-directory: ./clinic
       run: docker compose build
 
     - name: Push to Docker Hub Container Registry
