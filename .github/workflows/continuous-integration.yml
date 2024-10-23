@@ -32,7 +32,7 @@ jobs:
 
     # Compilar e construir o backend (Java/Spring Boot)
     - name: Build Backend JAR
-      working-directory: ./physiotherapy-s-clinic  # Caminho onde está o backend (pom.xml)
+      working-directory: ./physiotherapy.s.clinic  # Caminho onde está o backend (pom.xml)
       run: mvn clean package
 
     # Construir e gerar a imagem Docker usando docker-compose (para todo o projeto)
