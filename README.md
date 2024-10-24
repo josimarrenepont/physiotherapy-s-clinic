@@ -27,6 +27,33 @@ https://github.com/josimarrenepont/physiotherapy-s-clinic/assets/111367304/a56fd
 
 * Banco de dados: PostgreSQL
 
+# Implantação em produção
+  Banco de dados: PostgreSQL
+
+# Implantação com Docker
+  A aplicação pode ser facilmente executada usando Docker, o que facilita a configuração e implantação. Para rodar o projeto com Docker, basta seguir os passos abaixo:
+
+* Clone o repositório:
+
+```bash
+
+git clone https://github.com/josimarrenepont/physiotherapy-s-clinic.git
+````
+```bash
+cd physiotherapy-s-clinic
+```
+* Execute o Docker Compose para levantar os serviços:
+
+```bash
+
+  docker-compose up --build
+```
+* Isso irá iniciar os contêineres do banco de dados PostgreSQL e da aplicação backend.
+
+* Acesse a aplicação no seu navegador em http://localhost:8080.
+
+* Além disso, a aplicação também pode ser executada diretamente sem o Docker, caso prefira rodá-la manualmente em um ambiente local.
+
 # Autor
 
 Josimar Renepont dos Santos
