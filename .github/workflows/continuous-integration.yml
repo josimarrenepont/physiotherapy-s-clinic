@@ -29,11 +29,11 @@ jobs:
         cache: maven
 
     - name: Build Backend JAR
-      working-directory: ./clinic
+      working-directory: ./physiotherapy-s-clinic/clinic
       run: mvn clean package
 
     - name: Docker Compose Build
-      working-directory: ./clinic
+      working-directory: ./physiotherapy-s-clinic
       run: docker-compose build
 
     - name: Push to Docker Hub Container Registry
