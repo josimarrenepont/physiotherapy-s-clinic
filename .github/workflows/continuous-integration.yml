@@ -29,10 +29,14 @@ jobs:
           cache: maven
 
       - name: Build Backend JAR
-        run: mvn -f ./clinic/pom.xml clean package
+        run: |
+          cd clinic
+          mvn clean package
 
       - name: Docker Compose Build
-        run: docker-compose -f ./clinic/docker-compose.yml build
+        run: |
+          cd clinic
+          docker-compose build
 
       - name: Push to Docker Hub Container Registry
         run: |
@@ -42,6 +46,6 @@ jobs:
 
       - name: Build Frontend
         run: |
-          cd ./frontend/fhysiotherapy-app
+          cd frontend/fhysiotherapy-app
           npm install
           npm run build
