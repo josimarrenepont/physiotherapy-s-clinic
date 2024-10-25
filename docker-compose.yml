@@ -32,6 +32,7 @@ services:
     command: mvn spring-boot:run
     depends_on:
       - db
+
     volumes:
       - uploads_data:/app/uploads
 
