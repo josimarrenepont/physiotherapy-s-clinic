@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v3
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3.3.0
@@ -22,7 +22,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Set up JDK 21
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v3
         with:
           java-version: '21'
           distribution: 'adopt'
@@ -32,11 +32,11 @@ jobs:
         run: ls -R
 
       - name: Build Backend JAR
-        working-directory: ./clinic  # Verifique se esse caminho está correto
+        working-directory: ./clinic
         run: mvn clean package
 
       - name: Docker Compose Build
-        working-directory: ./clinic  # Use o mesmo diretório
+        working-directory: ./clinic
         run: docker-compose build
 
       - name: Push to Docker Hub Container Registry
@@ -46,7 +46,7 @@ jobs:
           docker push ${{ secrets.DOCKER_USERNAME }}/clinic-physiotherapys-clinic:latest
 
       - name: Build Frontend
-        working-directory: ./frontend/fhysiotherapy-app  # Ajuste o caminho se necessário
+        working-directory: ./frontend/fhysiotherapy-app
         run: |
           npm install
           npm run build
