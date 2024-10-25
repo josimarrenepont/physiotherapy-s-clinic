@@ -30,7 +30,8 @@ jobs:
 
     - name: Build Backend JAR
       working-directory: ./ws-intelij/clinic
-      run: mvn clean package
+      run: mvn clean package || (cat target/logs.log; exit 1)  # Exibe logs se falhar
+
 
     - name: Docker Compose Build
       run: docker-compose build
