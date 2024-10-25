@@ -40,3 +40,9 @@ jobs:
         docker tag ${{ secrets.DOCKER_USERNAME }}/clinic-physiotherapys-clinic:latest ${{ secrets.DOCKER_USERNAME }}/clinic-physiotherapys-clinic:${{ github.run_id }}
         docker push ${{ secrets.DOCKER_USERNAME }}/clinic-physiotherapys-clinic:${{ github.run_id }}
         docker push ${{ secrets.DOCKER_USERNAME }}/clinic-physiotherapys-clinic:latest
+
+    - name: Build Frontend
+      working-directory: ./fhysiotherapy-app
+      run: |
+        npm install
+        npm run build
