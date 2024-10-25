@@ -1,3 +1,4 @@
+version: '3.8'
 
 services:
   db:
@@ -17,7 +18,8 @@ services:
       - postgres_data:/var/lib/postgresql/data
 
   physiotherapys-clinic:
-    build: C:/temp/ws-intelij/clinic  # Este caminho está correto
+    image: jnrenepont/clinic-physiotherapys-clinic
+    build: .
     working_dir: /app-clinic
     environment:
       TZ: America/Sao_Paulo
