@@ -25,20 +25,20 @@ jobs:
       uses: actions/setup-java@v4
       with:
         java-version: '21'
-        distribution: 'temurin'  # Use 'temurin' em vez de 'adopt'
+        distribution: 'temurin'  # Use 'temurin'
         cache: maven
 
-    - name: Display Java Version
-      run: java -version  # Adiciona para verificar se o Java está configurado corretamente
+    - name: List Directory
+      run: ls -R ./ws-intelij/
 
     - name: Build Backend JAR
       working-directory: ./ws-intelij/clinic
-      run: |
-        mvn clean package
-      continue-on-error: true  # Permite continuar mesmo que esta etapa falhe
+      run: mvn clean package
 
-    - name: Display Build Logs
-      run: cat ./ws-intelij/clinic/target/*.log || echo "No logs found"  # Captura logs se a construção falhar
+    - name: Install Docker Compose
+      run: |
+        sudo apt-get update
+        sudo apt-get install docker-compose -y
 
     - name: Docker Compose Build
       run: docker-compose build
