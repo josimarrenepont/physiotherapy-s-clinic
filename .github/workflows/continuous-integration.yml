@@ -15,8 +15,10 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: List Root Directory
-      run: ls -R .
+    - name: List Directory Structure
+      run: |
+        echo "Listing directory structure:"
+        ls -R .  # Lista todos os arquivos e diretórios recursivamente
 
     - name: Login to Docker Hub
       uses: docker/login-action@v3.3.0
