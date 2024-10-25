@@ -29,7 +29,7 @@ jobs:
         cache: maven
 
     - name: Build Backend JAR
-      working-directory: ./temp/ws-intelij/clinic
+      working-directory: ./ws-intelij/clinic
       run: mvn clean package
 
     - name: Docker Compose Build
@@ -37,9 +37,9 @@ jobs:
 
     - name: Push to Docker Hub Container Registry
       run: |
-        docker tag ${{ secrets.DOCKER_USERNAME }}/physiotherapy-s-clinic:latest ${{ secrets.DOCKER_USERNAME }}/physiotherapy-s-clinic:${{ github.run_id }}
-        docker push ${{ secrets.DOCKER_USERNAME }}/physiotherapy-s-clinic:${{ github.run_id }}
-        docker push ${{ secrets.DOCKER_USERNAME }}/physiotherapy-s-clinic:latest
+        docker tag ${{ secrets.DOCKER_USERNAME }}/physiotherapys-clinic:latest ${{ secrets.DOCKER_USERNAME }}/physiotherapys-clinic:${{ github.run_id }}
+        docker push ${{ secrets.DOCKER_USERNAME }}/physiotherapys-clinic:${{ github.run_id }}
+        docker push ${{ secrets.DOCKER_USERNAME }}/physiotherapys-clinic:latest
 
     - name: Build Frontend
       working-directory: ./fhysiotherapy-app
