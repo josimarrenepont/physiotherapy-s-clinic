@@ -15,6 +15,9 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: List files in repository
+      run: ls -R # Listar todos os arquivos e diretórios no repositório
+
     - name: Login to Docker Hub
       uses: docker/login-action@v3.3.0
       with:
@@ -29,7 +32,7 @@ jobs:
         cache: maven
 
     - name: Build Backend JAR
-      working-directory: ./ws-intelij/clinic/physiotherapy-s-clinic
+      working-directory: ./clinic/physiotherapy-s-clinic
       run: mvn clean package
 
     - name: Docker Compose Build
@@ -41,7 +44,7 @@ jobs:
         docker tag ${{ secrets.DOCKER_USERNAME }}/clinic-physiotherapys-clinic:latest ${{ secrets.DOCKER_USERNAME }}/clinic-physiotherapys-clinic:${{ github.run_id }}
         docker push ${{ secrets.DOCKER_USERNAME }}/clinic-physiotherapys-clinic:${{ github.run_id }}
         docker push ${{ secrets.DOCKER_USERNAME }}/clinic-physiotherapys-clinic:latest
-
+        
     - name: Build Frontend
       working-directory: ./fhysiotherapy-app
       run: |
