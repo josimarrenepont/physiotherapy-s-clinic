@@ -29,7 +29,7 @@ jobs:
         cache: maven
 
     - name: Build Backend JAR
-      working-directory: c:/temp/ws-intelij/clinic
+      working-directory: ./temp/ws-intelij/clinic
       run: mvn clean package
 
     - name: Docker Compose Build
