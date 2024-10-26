@@ -1,3 +1,4 @@
+
 name: Continuous Integration With Github Actions
 
 on:
@@ -14,9 +15,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-
-    - name: List files in repository
-      run: ls -R # Listar todos os arquivos e diretórios no repositório
 
     - name: Login to Docker Hub
       uses: docker/login-action@v3.3.0
@@ -44,7 +42,6 @@ jobs:
         docker tag ${{ secrets.DOCKER_USERNAME }}/clinic-physiotherapys-clinic:latest ${{ secrets.DOCKER_USERNAME }}/clinic-physiotherapys-clinic:${{ github.run_id }}
         docker push ${{ secrets.DOCKER_USERNAME }}/clinic-physiotherapys-clinic:${{ github.run_id }}
         docker push ${{ secrets.DOCKER_USERNAME }}/clinic-physiotherapys-clinic:latest
-        
     - name: Build Frontend
       working-directory: ./fhysiotherapy-app
       run: |
