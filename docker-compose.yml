@@ -50,3 +50,4 @@ networks:
 
 volumes:
   postgres_data:
+  uploads_data:
