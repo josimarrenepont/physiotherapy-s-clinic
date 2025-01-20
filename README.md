@@ -27,9 +27,6 @@ https://github.com/josimarrenepont/physiotherapy-s-clinic/assets/111367304/a56fd
 
 * Banco de dados: PostgreSQL
 
-# Implantação em produção
-  Banco de dados: PostgreSQL
-
 # Implantação com Docker
   A aplicação pode ser facilmente executada usando Docker, o que facilita a configuração e implantação. Para rodar o projeto com Docker, basta seguir os passos abaixo:
 
