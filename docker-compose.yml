@@ -19,7 +19,7 @@ services:
 
   physiotherapys-clinic:
     build:
-      context: C:/temp/ws-intelij/clinic
+      context: ./clinic
     image: jnrenepont/clinic-physiotherapys-clinic
     working_dir: /app-clinic
     environment:
